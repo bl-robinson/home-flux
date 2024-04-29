@@ -4,4 +4,4 @@ namespace: flux-system
 resources:
   - metallb.yaml
   - container-registry.yaml
-  - nginx-ingress.yaml
+  # - nginx-ingress.yaml
