@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: podinfo
+  name: nginx-ingress
   namespace: default
 spec:
   type: oci
