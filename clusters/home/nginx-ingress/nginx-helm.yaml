@@ -23,10 +23,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: nginx-ingress
-  values:
-    hostNetwork: true
-    hostPort:
-      enabled: true
   releaseName: nginx-ingress
   install:
     remediation:
