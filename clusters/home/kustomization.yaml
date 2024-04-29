@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - container-registry.yaml
-  - nginx-ingress.yaml
+  # - nginx-ingress.yaml
