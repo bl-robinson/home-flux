@@ -4,5 +4,7 @@ metadata:
   name: test-ingress
 spec:
   defaultBackend:
+    service:
+      name: test
       port:
         number: 5000
