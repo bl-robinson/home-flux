@@ -8,7 +8,8 @@ metadata:
 spec:
   replicas: 1
   selector:
-    app.kubernetes.io/name: container-registry
+    matchLabels:
+      app.kubernetes.io/name: container-registry
   template:
     metadata:
       labels:
