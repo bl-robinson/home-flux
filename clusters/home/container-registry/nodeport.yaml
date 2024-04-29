@@ -10,3 +10,15 @@ spec:
   ports:
     - port: 5000
       targetPort: 5000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: container-registry
+  namespace: container-registry
+spec:
+  defaultBackend:
+    service:
+      name: container-registry
+      port:
+        number: 5000
