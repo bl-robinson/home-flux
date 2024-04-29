@@ -25,6 +25,8 @@ spec:
         name: nginx-ingress
   values:
     hostNetwork: true
+    hostPort:
+      enabled: true
   releaseName: nginx-ingress
   install:
     remediation:
