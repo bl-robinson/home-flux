@@ -14,9 +14,10 @@ metadata:
   name: nginx-ingress
   namespace: nginx-ingress
 spec:
+  interval: 10m
+  timeout: 5m
   chart:
     spec:
-      interval: 10m
       chart: nginx-ingress
       version: '1.2.0'
       sourceRef:
