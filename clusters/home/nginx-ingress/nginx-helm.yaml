@@ -16,6 +16,7 @@ metadata:
 spec:
   chart:
     spec:
+      interval: 10m
       chart: nginx-ingress
       version: '1.2.0'
       sourceRef:
