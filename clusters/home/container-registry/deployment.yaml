@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: container-registry
   name: registry
   namespace: container-registry
 spec:
@@ -8,6 +10,9 @@ spec:
   selector:
     app: container-registry
   template:
+    metadata:
+      labels:
+        app: container-registry
     spec:
       containers:
       - name: registry
