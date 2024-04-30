@@ -5,7 +5,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.0.1.2-10.0.1.254
+  - 10.0.1.10-10.0.1.254
   # Chosen as I have a separate network subnet configured on Unifi-SG for this range with DHCP disabled
 ---
 apiVersion: metallb.io/v1beta1
