@@ -8,18 +8,17 @@ spec:
   - 10.0.1.10-10.0.1.254
   # Chosen as I have a separate network subnet configured on Unifi-SG for this range with DHCP disabled
 ---
-apiVersion: metallb.io/v1beta2
+apiVersion: projectcalico.org/v3
 kind: BGPPeer
 metadata:
-  name: unifi
-  namespace: metallb-system
+  name: unifi-router
 spec:
-  myASN: 64500
-  peerASN: 64501
-  peerAddress: 10.0.0.1
----
-apiVersion: metallb.io/v1beta1
-kind: BGPAdvertisement
-metadata:
-  name: bgp-advert
-  namespace: metallb-system
+  peerIP: 10.0.0.1
+  asNumber: 64500
+
+# configure
+# set protocols bgp 64501 parameters router-id 10.0.0.1
+# set protocols bgp 64501 neighbor 10.0.0.20 remote-as 64500
+# commit
+# save
+# exit
