@@ -22,7 +22,7 @@ metadata:
   name: default
 spec:
   logSeverityScreen: Info
-  nodeToNodeMeshEnabled: fa
+  nodeToNodeMeshEnabled: false
   nodeMeshMaxRestartTime: 120s
   asNumber: 64500
   serviceClusterIPs:
