@@ -8,12 +8,6 @@ spec:
   - 10.0.1.10-10.0.1.254
   # Chosen as I have a separate network subnet configured on Unifi-SG for this range with DHCP disabled
 ---
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  name: example
-  namespace: metallb-system
----
 apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
@@ -23,3 +17,9 @@ spec:
   myASN: 64500
   peerASN: 64501
   peerAddress: 10.0.0.1
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgp-advert
+  namespace: metallb-system
