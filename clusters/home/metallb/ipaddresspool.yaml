@@ -14,7 +14,7 @@ metadata:
   name: unifi-router
 spec:
   peerIP: 10.0.0.1
-  asNumber: 64500
+  asNumber: 64501
 ---
 apiVersion: projectcalico.org/v3
 kind: BGPConfiguration
