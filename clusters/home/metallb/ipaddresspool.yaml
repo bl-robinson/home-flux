@@ -5,7 +5,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.0.0.50-10.0.0.100
+  - 10.0.1.1-10.0.1.100
   # Chosen as I have a separate network subnet configured on Unifi-SG for this range with DHCP disabled
 ---
 apiVersion: metallb.io/v1beta1
@@ -13,38 +13,3 @@ kind: L2Advertisement
 metadata:
   name: example
   namespace: metallb-system
-# ---
-# apiVersion: metallb.io/v1beta1
-# kind: BGPAdvertisement
-# metadata:
-#   name: local
-#   namespace: metallb-system
-# spec:
-#   ipAddressPools:
-#   - first-pool
-#   aggregationLength: 32
-#   localPref: 100
-#   communities:
-#   - 65535:65282
-# ---
-# apiVersion: metallb.io/v1beta1
-# kind: BGPAdvertisement
-# metadata:
-#   name: external
-#   namespace: metallb-system
-# spec:
-#   ipAddressPools:
-#   - first-pool
-#   aggregationLength: 24
-
-# configure
-# set protocols bgp 64501 parameters router-id 10.0.0.1
-# set protocols bgp 64501 neighbor 10.0.0.20 remote-as 64500
-# set protocols bgp 64501 neighbor 10.0.0.21 remote-as 64500
-# set protocols bgp 64501 neighbor 10.0.0.22 remote-as 64500
-# commit
-# save
-# exit
-
-# calicoctl patch bgpconfiguration default -p '{"spec": {"asNumber": "64500"}}'
-
