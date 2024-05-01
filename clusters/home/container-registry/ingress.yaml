@@ -21,12 +21,13 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: container-registry
-              port:
-                number: 5000
+    - host: registry.k8s.home.blrobinson.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: container-registry
+                port:
+                  number: 5000
