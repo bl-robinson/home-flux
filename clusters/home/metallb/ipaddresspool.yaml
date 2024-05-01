@@ -5,38 +5,37 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.0.1.10-10.0.1.254
+  - 10.0.1.10-10.0.1.250
   # Chosen as I have a separate network subnet configured on Unifi-SG for this range with DHCP disabled
 ---
-apiVersion: projectcalico.org/v3
-kind: BGPPeer
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
 metadata:
-  name: unifi-router
-spec:
-  peerIP: 10.0.0.1
-  asNumber: 64501
----
-apiVersion: projectcalico.org/v3
-kind: BGPConfiguration
-metadata:
-  name: default
-spec:
-  logSeverityScreen: Info
-  nodeToNodeMeshEnabled: false
-  asNumber: 64500
-  serviceClusterIPs:
-    - cidr: 10.96.0.0/12
-  serviceExternalIPs:
-    - cidr: 10.0.1.0/24
-  listenPort: 178
-  bindMode: NodeIP
-  communities:
-    - name: bgp-large-community
-      value: 64500:300:100
-  prefixAdvertisements:
-    - cidr: 10.0.2.0/24
-      communities:
-        - bgp-large-community
+  name: example
+  namespace: metallb-system
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: BGPAdvertisement
+# metadata:
+#   name: local
+#   namespace: metallb-system
+# spec:
+#   ipAddressPools:
+#   - first-pool
+#   aggregationLength: 32
+#   localPref: 100
+#   communities:
+#   - 65535:65282
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: BGPAdvertisement
+# metadata:
+#   name: external
+#   namespace: metallb-system
+# spec:
+#   ipAddressPools:
+#   - first-pool
+#   aggregationLength: 24
 
 # configure
 # set protocols bgp 64501 parameters router-id 10.0.0.1
