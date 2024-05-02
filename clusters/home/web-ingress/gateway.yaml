@@ -30,6 +30,9 @@ spec:
   - name: web-ingress
   rules:
   - matches:
+    - path:
+        type: PathPrefix
+        value: /
     backendRefs:
     - name: web
       port: 443
@@ -44,6 +47,9 @@ spec:
   - name: web-ingress
   rules:
   - matches:
+    - path:
+        type: PathPrefix
+        value: /
     backendRefs:
     - name: web
       port: 80
