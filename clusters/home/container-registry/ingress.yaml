@@ -23,7 +23,7 @@ spec:
     protocol: TCP
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
+kind: TCPRoute
 metadata:
   name: all-hosts
   namespace: container-registry
