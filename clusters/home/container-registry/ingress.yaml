@@ -30,7 +30,7 @@ spec:
     protocol: HTTPS
     hostname: container-registry.k8s.home.blrobinson.uk
     tls:
-      mode: terminate
+      mode: Terminate
       certificateRefs:
         - name: "container-registry"
 ---
