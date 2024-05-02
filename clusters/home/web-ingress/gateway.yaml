@@ -29,9 +29,9 @@ spec:
   parentRefs:
   - name: web-ingress
   rules:
-    backendRefs:
-    - name: web
-      port: 443
+    - backendRefs:
+      - name: web
+        port: 443
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
