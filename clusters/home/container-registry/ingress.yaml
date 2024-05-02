@@ -30,9 +30,9 @@ spec:
     protocol: HTTPS
     hostname: container-registry.k8s.home.blrobinson.uk
     tls:
-      mode: Terminate
-      certificateRefs:
-        - name: "container-registry"
+      mode: Passthrough
+      # certificateRefs:
+      #   - name: "container-registry"
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
