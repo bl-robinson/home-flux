@@ -18,7 +18,7 @@ metadata:
 spec:
   gatewayClassName: cilium
   listeners:
-  - name: TCP
+  - name: tcp
     port: 5000
     protocol: TCP
 ---
