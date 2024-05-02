@@ -4,6 +4,7 @@ metadata:
   name: container-registry
   namespace: container-registry
 spec:
+  secretName: container-registry
   issuerRef:
     name: letsencrypt
   dnsNames:
