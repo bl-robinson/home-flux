@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: dns
+  name: dns
+  namespace: dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dns
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: dns
+    spec:
+      containers:
+      - name: dns
+        image: container-registry.container-registry.svc.cluster.local/docker-dns:latest
+        ports:
+        - containerPort: 53

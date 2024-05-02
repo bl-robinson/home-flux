@@ -1,0 +1,6 @@
+namespace: ingress
+
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - deployment.yaml
