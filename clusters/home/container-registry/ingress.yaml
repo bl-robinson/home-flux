@@ -22,7 +22,7 @@ spec:
     port: 5000
     protocol: TCP
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TCPRoute
 metadata:
   name: all-hosts
@@ -31,10 +31,6 @@ spec:
   parentRefs:
   - name: container-registry
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
+  - backendRefs:
     - name: container-registry
       port: 5000
