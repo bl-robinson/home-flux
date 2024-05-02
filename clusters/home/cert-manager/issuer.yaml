@@ -13,6 +13,6 @@ spec:
     - http01:
         gatewayHTTPRoute:
           parentRefs:
-            - name: cert-manager
+            - name: web-ingress
               namespace: ingress
               kind: Gateway
