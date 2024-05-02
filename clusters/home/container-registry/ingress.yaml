@@ -33,7 +33,7 @@ spec:
       mode: Terminate
       certificateRefs:
         - kind: Secret
-          name: "container-registry"
+          name: container-registry
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
