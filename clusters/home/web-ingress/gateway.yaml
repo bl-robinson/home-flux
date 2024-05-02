@@ -5,6 +5,8 @@ metadata:
   namespace: ingress
 spec:
   gatewayClassName: cilium
+  addresses:
+    - value: 10.0.0.101
   listeners:
   - name: http
     protocol: HTTP
