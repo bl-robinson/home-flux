@@ -29,10 +29,6 @@ spec:
   parentRefs:
   - name: web-ingress
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
     backendRefs:
     - name: web
       port: 443
