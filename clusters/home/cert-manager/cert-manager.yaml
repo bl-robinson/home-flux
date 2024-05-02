@@ -24,6 +24,9 @@ spec:
         name: cert-manager
   values:
     installCRDs: true
+    config:
+      featureGates:
+        experimentalGatewayAPISupport: true
   releaseName: cert-manager
   install:
     remediation:
@@ -31,3 +34,21 @@ spec:
   upgrade:
     remediation:
       retries: 3
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+  namespace: cert-manager
+spec:
+  acme:
+    email: benr@blrobinson.uk
+    privateKeySecretRef:
+      name: le-stage-pk
+    solvers:
+    - http01:
+        gatewayHTTPRoute:
+          parentRefs:
+            - name: cert-manager
+              namespace: ingress
+              kind: Gateway

@@ -1,0 +1,5 @@
+namespace: ingress
+
+resources:
+  - namespace.yaml
+  - gateway.yaml
