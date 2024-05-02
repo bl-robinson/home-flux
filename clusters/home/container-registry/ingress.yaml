@@ -4,26 +4,27 @@ metadata:
   name: container-registry
   namespace: container-registry
 spec:
+  type: ClusterIP
   selector:
     app.kubernetes.io/name: container-registry
   ports:
     - port: 5000
-      protocol: TCP
+      targetPort: 5000
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: container-registry
+  name: container-regsitry
   namespace: container-registry
 spec:
   gatewayClassName: cilium
   listeners:
-  - name: tcp
+  - name: http
     port: 5000
-    protocol: TCP
+    protocol: HTTP
 ---
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
 metadata:
   name: all-hosts
   namespace: container-registry
@@ -31,6 +32,10 @@ spec:
   parentRefs:
   - name: container-registry
   rules:
-  - backendRefs:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
     - name: container-registry
       port: 5000
