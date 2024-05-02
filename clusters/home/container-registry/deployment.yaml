@@ -26,7 +26,8 @@ spec:
         - name: REGISTRY_HTTP_TLS_KEY
           value: "/certs/tls.key"
         volumeMounts:
-        - secret:
+        - name: registry-certs
+          secret:
             secretName: container-registry-cert
           mountPath: "/certs"
           readOnly: true
