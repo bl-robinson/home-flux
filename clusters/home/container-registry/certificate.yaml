@@ -6,6 +6,7 @@ metadata:
 spec:
   secretName: container-registry-cert
   issuerRef:
+    kind: ClusterIssuer
     name: letsencrypt
   dnsNames:
   - container-registry.k8s.home.blrobinson.uk
