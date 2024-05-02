@@ -42,6 +42,7 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
     email: benr@blrobinson.uk
     privateKeySecretRef:
       name: le-stage-pk
