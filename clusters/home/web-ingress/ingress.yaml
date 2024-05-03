@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/name:web
+    app.kubernetes.io/name: web
   ports:
     - port: 443
       targetPort: 443
