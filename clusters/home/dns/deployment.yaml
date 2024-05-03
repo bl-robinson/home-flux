@@ -19,4 +19,5 @@ spec:
       - name: dns
         image: container-registry.k8s.home.blrobinson.uk/docker-dns:latest
         ports:
-        - containerPort: 53
+          - containerPort: 53
+        imagePullPolicy: Always

@@ -23,7 +23,8 @@ spec:
         - containerPort: 443
         volumeMounts:
         - name: home-cert
-          mountPath: /etc/cert/
+          mountPath: /etc/cert
+        imagePullPolicy: Always
       volumes:
       - name: home-cert
         secret:
