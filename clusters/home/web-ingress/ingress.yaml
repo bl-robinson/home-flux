@@ -17,24 +17,25 @@
 #       protocol: TCP
 #       targetPort: 80
 # ---
-# apiVersion: gateway.networking.k8s.io/v1beta1
-# kind: Gateway
-# metadata:
-#   name: web-ingress
-#   namespace: ingress
-# spec:
-#   addresses:
-#     - value: 10.0.0.101
-#   gatewayClassName: cilium
-#   listeners:
-#   - name: http
-#     port: 80
-#     protocol: HTTP
-#   - name: https
-#     port: 443
-#     protocol: TLS
-#     tls:
-#       mode: Passthrough
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: web-ingress
+  namespace: ingress
+spec:
+  addresses:
+    - value: 10.0.0.101
+  gatewayClassName: cilium
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    port: 443
+    protocol: TLS
+    tls:
+      mode: Passthrough
+---
 # ---
 # apiVersion: gateway.networking.k8s.io/v1alpha2
 # kind: TLSRoute
