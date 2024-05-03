@@ -17,14 +17,15 @@ spec:
       protocol: TCP
       targetPort: 80
 ---
-apiVersion: gateway.networking.k8s.io/v1beta1
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: web-ingress
   namespace: ingress
 spec:
   addresses:
-    - value: 10.0.0.101
+    - type: IPAddress
+      value: 10.0.0.101
   gatewayClassName: cilium
   listeners:
   - name: http
