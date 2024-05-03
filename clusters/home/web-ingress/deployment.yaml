@@ -19,13 +19,14 @@ spec:
       - name: web
         image: container-registry.k8s.home.blrobinson.uk/docker-web:latest
         ports:
-        - containerPort: 80
-        - containerPort: 443
+          - containerPort: 80
+          - containerPort: 443
         volumeMounts:
-        - name: home-cert
-          mountPath: /etc/cert
+          - name: home-cert
+            mountPath: /etc/cert
+            readOnly: true
         imagePullPolicy: Always
       volumes:
-      - name: home-cert
-        secret:
-          secretName: home-cert
+        - name: home-cert
+          secret:
+            secretName: home-cert
