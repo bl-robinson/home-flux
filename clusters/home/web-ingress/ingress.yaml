@@ -1,22 +1,22 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: web
-#   namespace: ingress
-# spec:
-#   type: ClusterIP
-#   selector:
-#     app.kubernetes.io/name: web
-#   ports:
-#     - name: https
-#       port: 443
-#       protocol: TCP
-#       targetPort: 443
-#     - name: http
-#       port: 80
-#       protocol: TCP
-#       targetPort: 80
-# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: ingress
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: web
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
@@ -36,57 +36,21 @@ spec:
     tls:
       mode: Passthrough
 ---
-# ---
-# apiVersion: gateway.networking.k8s.io/v1alpha2
-# kind: TLSRoute
-# metadata:
-#   name: web-ingress-tls
-#   namespace: ingress
-# spec:
-#   parentRefs:
-#   - name: web-ingress
-#     kind: Gateway
-#     port: 443
-#   rules:
-#     - backendRefs:
-#       - name: web
-#         port: 443
-# ---
-# apiVersion: gateway.networking.k8s.io/v1beta1
-# kind: HTTPRoute
-# metadata:
-#   name: web-ingress-http
-#   namespace: ingress
-# spec:
-#   parentRefs:
-#   - name: web-ingress
-#     kind: Gateway
-#     port: 80
-#   rules:
-#   - matches:
-#     - path:
-#         type: PathPrefix
-#         value: /
-#     backendRefs:
-#     - name: web
-#       port: 80
-apiVersion: v1
-kind: Service
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
 metadata:
-  name: web
+  name: web-ingress-http
   namespace: ingress
 spec:
-  selector:
-    app.kubernetes.io/name: web
-  type: LoadBalancer
-  externalTrafficPolicy: Cluster
-  loadBalancerIP: 10.0.0.101
-  ports:
-    - name: http
-      protocol: TCP
+  parentRefs:
+  - name: web-ingress
+    kind: Gateway
+    port: 80
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: web
       port: 80
-      targetPort: 80
-    - name: https
-      protocol: TCP
-      port: 443
-      targetPort: 443
