@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: dns
-        image: container-registry.container-registry.svc.cluster.local/docker-dns:latest
+        image: container-registry.k8s.home.blrobinson.uk/docker-dns:latest
         ports:
         - containerPort: 53
