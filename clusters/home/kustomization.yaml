@@ -6,6 +6,4 @@ resources:
   - container-registry.yaml
   - dns.yaml
   - cert-manager.yaml
-  # - web-ingress.yaml
-  # - nginx-ingress.yaml # The Nginx Ingress controller is very limited (80/443 listen ONLY by default (unless you edit the chart and .tmpl files))
-  # See https://docs.nginx.com/nginx-ingress-controller/tutorials/custom-listen-ports/
+  - web-ingress.yaml
