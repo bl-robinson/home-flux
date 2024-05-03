@@ -4,7 +4,8 @@ metadata:
   name: dns
   namespace: flux-system
 spec:
-  interval: 2m
+  interval: 10m
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: home-flux
