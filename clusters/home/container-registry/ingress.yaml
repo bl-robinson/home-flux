@@ -25,11 +25,9 @@ spec:
   - name: http
     port: 80
     protocol: HTTP
-    hostname: container-registry.k8s.home.blrobinson.uk
   - name: https
     port: 443
     protocol: HTTPS
-    hostname: container-registry.k8s.home.blrobinson.uk
     tls:
       mode: Terminate
       certificateRefs:
@@ -45,10 +43,6 @@ spec:
   parentRefs:
   - name: container-registry
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
+  - backendRefs:
     - name: container-registry
       port: 5000
