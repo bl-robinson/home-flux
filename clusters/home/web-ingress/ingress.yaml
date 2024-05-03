@@ -53,6 +53,7 @@ spec:
   - name: web-ingress
     kind: Gateway
     port: 80
+    sectionName: http
   rules:
   - matches:
     - path:
