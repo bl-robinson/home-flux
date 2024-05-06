@@ -222,7 +222,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: adguard-data
-          mountPath: /opt/adguardhome/
+          mountPath: /opt/adguardhome/ # Mount just /opt/adguardhome/work to not include config in PV
       volumes:
       - name: adguard-data
         nfs:
