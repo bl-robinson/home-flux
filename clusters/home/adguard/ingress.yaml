@@ -14,3 +14,7 @@ spec:
       protocol: UDP
       port: 53
       targetPort: 53
+    - name: http
+      protocol: http
+      port: 80
+      targetport: 80
