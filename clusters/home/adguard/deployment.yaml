@@ -17,12 +17,12 @@ spec:
       containers:
       - name: adguard-home
         image: adguard/adguardhome:latest
-        env:
-        - name: AGH_CONFIG
-          valueFrom:
-            configMapKeyRef:
-              name: adguard-config
-              key: AdGuardHome.yaml
+        # env:
+        # - name: AGH_CONFIG
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: adguard-config
+        #       key: AdGuardHome.yaml
         ports:
         - containerPort: 53 #dns
           name: dns
@@ -38,5 +38,5 @@ spec:
       volumes:
       - name: adguard-data
         nfs:
-          server: 10.0.0.11 # TODO: Use DNS? 
+          server: 10.0.0.11 # TODO: Use DNS?
           path: /mnt/adguard
