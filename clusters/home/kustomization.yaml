@@ -7,3 +7,4 @@ resources:
   - dns.yaml
   - cert-manager.yaml
   - web-ingress.yaml
+  - adguard.yaml
