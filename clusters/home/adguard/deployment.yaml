@@ -222,9 +222,15 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: adguard-data
-          mountPath: /opt/adguardhome/ # Mount just /opt/adguardhome/work to not include config in PV
+          mountPath: /opt/adguardhome/work # Mount just /opt/adguardhome/work to not include config in PV
+        - name: adguard-config
+          mountPath: /opt/adguardhome/conf
       volumes:
-      - name: adguard-data
+      - name: adguard-data-work
         nfs:
           server: 10.0.0.11 # TODO: Use DNS?
-          path: /mnt/adguard
+          path: /mnt/adguard/work
+      - name: adguard-data-config
+        nfs:
+          server: 10.0.0.11 # TODO: Use DNS?
+          path: /mnt/adguard/config
