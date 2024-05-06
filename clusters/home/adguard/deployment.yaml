@@ -14,8 +14,11 @@ spec:
       labels:
         app: adguard
     spec:
+      metadata:
+        labels:
+          app.kubernetes.io/name: adguard
       containers:
-      - name: adguard-home
+      - name: adguard
         image: adguard/adguardhome:latest
         # env:
         # - name: AGH_CONFIG
