@@ -186,21 +186,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/name: adguard
   name: adguard
   namespace: adguard
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adguard
+      app.kubernetes.io/name: adguard
   template:
     metadata:
       labels:
-        app: adguard
+        app.kubernetes.io/name: adguard
     spec:
-      metadata:
-        labels:
-          app.kubernetes.io/name: adguard
       containers:
       - name: adguard
         image: adguard/adguardhome:latest
@@ -214,9 +213,6 @@ spec:
         - containerPort: 53 #dns
           name: dns
           protocol: UDP
-        - containerPort: 3000 #initial setup
-          name: http-initial
-          protocol: TCP
         - containerPort: 80 #web gui
           name: http
           protocol: TCP
