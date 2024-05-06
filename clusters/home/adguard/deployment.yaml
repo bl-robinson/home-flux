@@ -38,5 +38,5 @@ spec:
       volumes:
       - name: adguard-data
         nfs:
-          server: data.home.blrobinson.uk
+          server: 10.0.0.11
           path: /mnt/adguard
