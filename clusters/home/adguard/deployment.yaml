@@ -29,6 +29,7 @@ spec:
           protocol: UDP
         - containerPort: 3000 #initial setup
           name: http-initial
+          protocol: TCP
         - containerPort: 80 #web gui
           name: http
           protocol: TCP
