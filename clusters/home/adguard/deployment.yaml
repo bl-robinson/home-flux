@@ -191,7 +191,7 @@ metadata:
   name: adguard
   namespace: adguard
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: adguard

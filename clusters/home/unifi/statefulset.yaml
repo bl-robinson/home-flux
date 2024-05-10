@@ -85,6 +85,11 @@ spec:
       - name: unifi-db
         image: docker.io/mongo:7.0
         imagePullPolicy: IfNotPresent
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: unifi
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: password
         volumeMounts:
           - name: unifi-mongo-data
             mountPath: /data/db
