@@ -6,8 +6,8 @@ metadata:
   namespace: unifi
 data:
   mongo-init: |
-    db.getSiblingDB("unifi").createUser({user: "unifi", pwd: "password", roles: [{role: "dbOwner", db: "unifi"}]});
-    db.getSiblingDB("unifi_stat").createUser({user: "unifi", pwd: "password", roles: [{role: "dbOwner", db: "unifi_stat"}]});
+    db.getSiblingDB("unifi").createUser({user: "unifi", pwd: "Testing123", roles: [{role: "dbOwner", db: "unifi"}]});
+    db.getSiblingDB("unifi_stat").createUser({user: "unifi", pwd: "Testing123", roles: [{role: "dbOwner", db: "unifi_stat"}]});
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -35,9 +35,9 @@ spec:
           - name: MONGO_USER
             value: unifi
           - name: MONGO_PASS
-            value: password
+            value: Testing123
           - name: MONGO_HOST
-            value: localhost
+            value: 127.0.0.1
           - name: MONGO_PORT
             value: "27017"
           - name: MONGO_DBNAME
@@ -83,13 +83,8 @@ spec:
           - name: unifi-config
             mountPath: /config
       - name: unifi-db
-        image: docker.io/mongo:7.0
+        image: docker.io/mongo:4.4
         imagePullPolicy: IfNotPresent
-        env:
-          - name: MONGO_INITDB_ROOT_USERNAME
-            value: unifi
-          - name: MONGO_INITDB_ROOT_PASSWORD
-            value: password
         volumeMounts:
           - name: unifi-mongo-data
             mountPath: /data/db
