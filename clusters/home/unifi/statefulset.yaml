@@ -83,13 +83,13 @@ spec:
           - name: unifi-config
             mountPath: /config
       - name: unifi-db
-        image: docker.io/mongo:4.4.18 # Using old version due to 'MongoDB 5.0+ requires a CPU with AVX support, and your current system does not appear to have that!'
+        image: docker.io/mongo:7.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: unifi-mongo-data
             mountPath: /data/db
           - name: mongo-startup-script
-            mountPath: /docker-entrypoint-initdb.d/init-mongo.js:ro
+            mountPath: /docker-entrypoint-initdb.d/init-mongo.js
             subPath: mongo-init
         ports:
           - name: mongo
