@@ -6,7 +6,7 @@ metadata:
   name: mail
   namespace: mail
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: mail
@@ -19,18 +19,18 @@ spec:
         - name: mail
           image: container-registry.k8s.home.blrobinson.uk/docker-mail:latest
           ports:
-            - name:
+            - name: smtpa
               containerPort: 25
-              protocol:
-            - name:
+              protocol: TCP
+            - name: smtpb
               containerPort: 587
-              protocol:
-            - name:
+              protocol: TCP
+            - name: smtpc
               containerPort: 465
-              protocol:
-            - name:
+              protocol: TCP
+            - name: imap
               containerPort: 993
-              protocol:
+              protocol: TCP
           imagePullPolicy: Always
           volumeMounts:
             - name: mail-dovecot

@@ -10,19 +10,19 @@ spec:
   externalTrafficPolicy: Cluster
   loadBalancerIP: 10.0.0.105
   ports:
-    - name:
-      protocol:
+    - name: smtpa
+      protocol: TCP
       port: 25
       targetPort: 25
-    - name:
-      protocol:
+    - name: smtpb
+      protocol: TCP
       port: 587
       targetPort: 587
-    - name:
-      protocol:
+    - name: smtpc
+      protocol: TCP
       port: 465
       targetPort: 465
-    - name:
-      protocol:
+    - name: imap
+      protocol: TCP
       port: 993
       targetPort: 993
