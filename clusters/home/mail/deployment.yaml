@@ -48,7 +48,7 @@ spec:
         - name: mail-postfix
           nfs:
             server: 10.0.0.11 # TODO MAKE DNS?
-            path: /mnt/unifi-postfix
+            path: /mnt/mail-postfix
         - name: mail-cert
           secret:
             secretName: mail-cert
