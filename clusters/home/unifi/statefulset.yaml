@@ -74,10 +74,10 @@ spec:
             protocol: UDP
         resources:
           requests:
-            cpu: "150m"
+            cpu: "500m"
             memory: "2048Mi"
           limits:
-            cpu: "512m"
+            cpu: "500m"
             memory: "2048Mi"
         volumeMounts:
           - name: unifi-config

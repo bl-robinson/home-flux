@@ -221,6 +221,11 @@ spec:
           mountPath: /opt/adguardhome/work # Mount just /opt/adguardhome/work to not include config in PV
         - name: adguard-config
           mountPath: /opt/adguardhome/conf
+        resources:
+          requests:
+            memory: "512Mi"
+          limits:
+            memory: "512Mi"
       volumes:
       - name: adguard-work
         nfs:

@@ -18,6 +18,13 @@ spec:
       containers:
       - name: dns
         image: container-registry.k8s.home.blrobinson.uk/docker-dns:latest
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "128Mi"
+          limits:
+            cpu: "150m"
+            memory: "128Mi"
         ports:
           - containerPort: 53
         imagePullPolicy: Always
