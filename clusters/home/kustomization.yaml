@@ -9,3 +9,4 @@ resources:
   - web-ingress.yaml
   - adguard.yaml
   - unifi.yaml
+  - mail.yaml
