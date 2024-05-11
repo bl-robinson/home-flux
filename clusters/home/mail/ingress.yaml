@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail
+  namespace: mail
+spec:
+  selector:
+    app.kubernetes.io/name: mail
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: 10.0.0.105
+  ports:
+    - name:
+      protocol:
+      port: 25
+      targetPort: 25
+    - name:
+      protocol:
+      port: 587
+      targetPort: 587
+    - name:
+      protocol:
+      port: 465
+      targetPort: 465
+    - name:
+      protocol:
+      port: 993
+      targetPort: 993
