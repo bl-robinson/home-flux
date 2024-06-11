@@ -5,3 +5,4 @@ resources:
   - certificate.yaml
   - deployment.yaml
   - ingress.yaml
+  - ingress-gateway.yaml

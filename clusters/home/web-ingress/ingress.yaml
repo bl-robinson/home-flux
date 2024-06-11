@@ -1,56 +1,18 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
+apiVersion: v1
+kind: Service
 metadata:
-  name: web-ingress
+  name: web
   namespace: ingress
 spec:
-  infrastructure:
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.0.0.100
-  gatewayClassName: cilium
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: https
-    port: 443
-    protocol: HTTPS
-    tls:
-      mode: Passthrough
-      # certificateRefs:
-      #   - kind: Secret
-      #     name: home-cert
----
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
-metadata:
-  name: web-ingress-http
-  namespace: ingress
-spec:
-  parentRefs:
-  - name: web-ingress
-    kind: Gateway
-    sectionName: http
-  rules:
-  - matches:
-    backendRefs:
-      - name: web
-        port: 80
----
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TLSRoute
-metadata:
-  name: web-ingress-https
-  namespace: ingress
-spec:
-  parentRefs:
-  - name: web-ingress
-    kind: Gateway
-    sectionName: https
-  rules:
-    - backendRefs:
-      - name: web
-        port: 443
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: web
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
