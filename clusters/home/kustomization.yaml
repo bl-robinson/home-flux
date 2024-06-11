@@ -4,9 +4,9 @@ namespace: flux-system
 resources:
   - metallb.yaml
   - container-registry.yaml
-  # - dns.yaml
+  - dns.yaml
   - cert-manager.yaml
   - web-ingress.yaml
-  # - adguard.yaml
+  - adguard.yaml
   - unifi.yaml
   # - mail.yaml
