@@ -4,6 +4,7 @@ metadata:
   name: first-pool
   namespace: metallb-system
 spec:
+  autoAssign: false
   addresses:
   - 10.0.0.100-10.0.0.254
   # In order for L2Advertisement to work this must be in the same network range as the local network.
