@@ -41,4 +41,3 @@ spec:
 I have actively chosen to split independent 'Applications' into their own Kustomizations to allow...
 1. One being broken will not block others
 2. I can easily remove/add sections of this repo by just commenting them out in the root kustomization.yaml
-
