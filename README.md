@@ -42,3 +42,22 @@ I have actively chosen to split independent 'Applications' into their own Kustom
 1. One being broken will not block others
 2. I can easily remove/add sections of this repo by just commenting them out in the root kustomization.yaml
 
+## Things I would like to improve
+
+- I would like to stop using a nginx proxy server when the "Gateway" Should be able to handle it for me.
+  - Problems here are...
+    - Some things (unifi) expect to be spoken to https so HTTPRoutes don't work. [Cillium does not yet support TCPRoutes](https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/) so I can't use the [method documented here.](https://gateway-api.sigs.k8s.io/guides/tls/#clientserver-and-tls)
+    - Other things shared ports and NEED TCP/UDP routing (Adguard / DNS / mail)
+    - Container registry. 'Could' be done but would required a secondary 'TLS termination' listener [with specific host config](https://gateway-api.sigs.k8s.io/guides/tls/#listeners-with-different-certificates) But this feels wrong to configure in place here when everything else is done in the container-registry folder.
+- DNS is a forever problem which would be nice if I could find a solution for it... (maybe I manage public DNS in IaC then stop running a local DNS server?) (Is this possible with my provider)
+  - This would allow me to remove hacks from [here](https://github.com/bl-robinson/terraform-k8s-libvirt-cluster/blob/master/configs/workers/cloud_init.cfg#L119) and [here](https://github.com/bl-robinson/terraform-k8s-libvirt-cluster/blob/master/configs/control_plane/cloud_init.cfg#L119)
+  - Integrate adguard into this directly somehow?
+- Applications missing...
+  - Monitoring? (metrics)
+  - Immich?
+  - Home Assistant?
+  - mailserver
+- Features missing
+  - Webserver image hosting for grabs.blrobinson.uk and clip/anirec upload tools.
+- Data server
+  - This really should not be another VM. Invest in a proper fileserver at some point.
