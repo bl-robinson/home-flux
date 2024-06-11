@@ -8,5 +8,5 @@ resources:
   - cert-manager.yaml
   - web-ingress.yaml
   # - adguard.yaml
-  # - unifi.yaml
+  - unifi.yaml
   # - mail.yaml
