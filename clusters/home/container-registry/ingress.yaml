@@ -11,6 +11,29 @@ spec:
     - port: 5000
       targetPort: 5000
 ---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: container-registry
+  namespace: container-registry
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.0.0.101
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - kind: Secret
+          name: container-registry-cert
+---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -18,10 +41,8 @@ metadata:
   namespace: container-registry
 spec:
   parentRefs:
-  - name: web-ingress
-    kind: Gateway
+  - name: container-registry
   rules:
-  - matches:
-    backendRefs:
-      - name: container-registry
-        port: 80
+  - backendRefs:
+    - name: container-registry
+      port: 5000
