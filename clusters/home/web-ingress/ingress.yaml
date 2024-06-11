@@ -38,10 +38,10 @@ spec:
     port: 443
     protocol: HTTPS
     tls:
-      mode: Passthrough # I would like to have used passthrough here, but the moment you specify a TLS route Cilium falls over. Suspect https://github.com/cilium/cilium/issues/31122 may be related.
-      # certificateRefs:
-      #   - kind: Secret
-      #     name: home-cert
+      mode: Terminate
+      certificateRefs:
+        - kind: Secret
+          name: home-cert
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute

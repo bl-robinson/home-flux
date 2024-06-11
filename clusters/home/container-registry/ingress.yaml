@@ -11,29 +11,6 @@ spec:
     - port: 5000
       targetPort: 5000
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: container-registry
-  namespace: container-registry
-spec:
-  addresses:
-    - type: IPAddress
-      value: 10.0.0.100
-  gatewayClassName: cilium
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
-  - name: https
-    port: 443
-    protocol: HTTPS
-    tls:
-      mode: Terminate
-      certificateRefs:
-        - kind: Secret
-          name: container-registry-cert
----
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
@@ -41,8 +18,10 @@ metadata:
   namespace: container-registry
 spec:
   parentRefs:
-  - name: container-registry
+  - name: web-ingress
+    kind: Gateway
   rules:
-  - backendRefs:
-    - name: container-registry
-      port: 5000
+  - matches:
+    backendRefs:
+      - name: container-registry
+        port: 80
