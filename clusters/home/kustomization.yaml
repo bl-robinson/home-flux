@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - metallb.yaml
-  - container-registry.yaml
+  # - container-registry.yaml
   # - dns.yaml
   - cert-manager.yaml
   # - web-ingress.yaml
