@@ -8,7 +8,7 @@ spec:
   image: quay.io/prometheus/prometheus:v2.22.1
   nodeSelector:
     kubernetes.io/os: linux
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       memory: 400Mi
@@ -16,9 +16,30 @@ spec:
     fsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
+  storage:
+    volumeClaimTemplate:
+        spec:
+          volumeName: prometheus-store
+          resources:
+            requests:
+              storage: 10Gi
   serviceAccountName: prometheus
   version: v2.22.1
   serviceMonitorSelector: {}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-store
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/prometheus"
 ---
 apiVersion: v1
 kind: Service
