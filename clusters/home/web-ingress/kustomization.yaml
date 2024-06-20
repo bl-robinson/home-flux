@@ -2,7 +2,6 @@ namespace: ingress
 
 resources:
   - namespace.yaml
-  - certificate.yaml
-  - deployment.yaml
-  - ingress.yaml
-  - ingress-gateway.yaml
+  - gateway-nginx.yaml
+  - nginx.yaml
+  - gateway.yaml

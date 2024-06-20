@@ -4,7 +4,6 @@ metadata:
   labels:
     app.kubernetes.io/name: container-registry
   name: registry
-  namespace: container-registry
 spec:
   replicas: 1
   selector:

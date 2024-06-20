@@ -4,7 +4,6 @@ metadata:
   labels:
     app.kubernetes.io/name: dns
   name: dns
-  namespace: dns
 spec:
   replicas: 2
   selector:

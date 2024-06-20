@@ -13,6 +13,11 @@ spec:
     - http01:
         gatewayHTTPRoute:
           parentRefs:
-            - name: web-ingress
+            # Has to be nginx-ingress as this is the public facing GW
+            - name: nginx-ingress
+              namespace: ingress
+              kind: Gateway
+            # Need the extra in order to make the local checks work
+            - name: gateway-ingress
               namespace: ingress
               kind: Gateway
