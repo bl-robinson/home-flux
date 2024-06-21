@@ -38,3 +38,4 @@ spec:
   dnsNames:
   - container-registry.k8s.home.blrobinson.uk
   - prometheus.k8s.home.blrobinson.uk
+  - grafana.k8s.home.blrobinson.uk
