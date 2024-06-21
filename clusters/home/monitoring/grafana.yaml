@@ -23,6 +23,14 @@ spec:
   values:
     serviceMonitor:
       enabled: true
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus.monitoring.svc.cluster.local:9090
+          editable: false
     # Provision grafana-dashboards-kubernetes
     dashboardProviders:
       dashboardproviders.yaml:
