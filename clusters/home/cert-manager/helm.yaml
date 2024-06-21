@@ -29,6 +29,10 @@ spec:
       kind: ControllerConfiguration
       featureGates:
         ExperimentalGatewayAPISupport: true
+      prometheus:
+        enabled: true
+        servicemonitor:
+          enabled: true
   releaseName: cert-manager
   install:
     remediation:
