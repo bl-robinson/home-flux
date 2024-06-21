@@ -32,6 +32,16 @@ spec:
           url: http://prometheus.monitoring.svc.cluster.local:9090
           editable: false
     # Provision grafana-dashboards-kubernetes
+    sidecar:
+      dashboards:
+        enabled: true
+        defaultFolderName: "General"
+        label: grafana_dashboard
+        labelValue: "1"
+        folderAnnotation: grafana_folder
+        searchNamespace: ALL
+        provider:
+          foldersFromFilesStructure: true
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
