@@ -2,14 +2,11 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
-    app.kubernetes.io/component: exporter
     app.kubernetes.io/name: node-exporter
   name: node-exporter
-  namespace: monitoring
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/component: exporter
       app.kubernetes.io/name: node-exporter
   updateStrategy:
     type: RollingUpdate
@@ -18,12 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: exporter
         app.kubernetes.io/name: node-exporter
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: '/metrics'
-        prometheus.io/port: "9100"
     spec:
       hostPID: true
       hostIPC: true
@@ -67,3 +59,38 @@ spec:
         - name: root
           hostPath:
             path: /
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: node-exporter
+  name: node-exporter
+spec:
+  ports:
+  - name: metrics
+    port: 9100
+    targetPort: 9100
+  selector:
+    app.kubernetes.io/name: node-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: node-exporter
+  name: node-exporter
+spec:
+  endpoints:
+  - interval: 15s
+    port: metrics
+    relabelings:
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: instance
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: node-exporter
