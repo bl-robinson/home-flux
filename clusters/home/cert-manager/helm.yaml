@@ -2,7 +2,6 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: cert-manager
-  namespace: cert-manager
 spec:
   interval: 5m0s
   url: https://charts.jetstack.io
@@ -11,7 +10,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: cert-manager
-  namespace: cert-manager
 spec:
   interval: 10m
   timeout: 5m
