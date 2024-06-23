@@ -231,8 +231,28 @@ spec:
   endpoints:
   - interval: 15s
     port: http-metrics
+    metricRelabelings:
+      - sourceLabels: [__name__, exported_pod]
+        regex: "(.*)"
+        targetLabel: pod
+      - sourceLabels: [__name__, exported_namespace]
+        regex: "(.*)"
+        targetLabel: namespace
+      - sourceLabels: [__name__, exported_node]
+        regex: "(.*)"
+        targetLabel: node
   - interval: 15s
     port: telemetry
+    metricRelabelings:
+      - sourceLabels: [__name__, exported_pod]
+        regex: "(.*)"
+        targetLabel: pod
+      - sourceLabels: [__name__, exported_namespace]
+        regex: "(.*)"
+        targetLabel: namespace
+      - sourceLabels: [__name__, exported_node]
+        regex: "(.*)"
+        targetLabel: node
   selector:
     matchLabels:
       app.kubernetes.io/name: kube-state-metrics
