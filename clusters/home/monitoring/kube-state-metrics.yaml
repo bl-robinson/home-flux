@@ -235,6 +235,9 @@ spec:
       - sourceLabels:
         - exported_namespace
         targetLabel: namespace
+      - sourceLabels:
+        - exported_pod
+        targetLabel: pod
   - interval: 15s
     port: telemetry
   selector:
