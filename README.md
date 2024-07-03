@@ -53,10 +53,14 @@ I have actively chosen to split independent 'Applications' into their own Kustom
   - This would allow me to remove hacks from [here](https://github.com/bl-robinson/terraform-k8s-libvirt-cluster/blob/master/configs/workers/cloud_init.cfg#L119) and [here](https://github.com/bl-robinson/terraform-k8s-libvirt-cluster/blob/master/configs/control_plane/cloud_init.cfg#L119)
   - Integrate adguard into this directly somehow?
 - Applications missing...
-  - Monitoring? (metrics)
-  - Immich?
-  - Home Assistant?
-  - mailserver
+  - Monitoring - This mostly works now... Would be good to have logging though! Pod logs stored for a couple of days would be helpful...
+  - Immich - This really is going to demand a better persistent store solution... I have worked around the immediate requirement by tidying up my G-Cloud storage a bit.
+  - Home Assistant? - Not really been used recently so can probably not worry about until I have a future need...
+  - mailserver - I have a year of AWS free tier... so going to leave it there "for now" until I consider moving it back...
+- Automated builds of container repos?
+  - Don't want to make the registry public facing.
+    - GHA self hosted runners?
+    - Could be an option using https://github.com/actions/actions-runner-controller
 - Features missing
   - Webserver image hosting for grabs.blrobinson.uk and clip/anirec upload tools.
 - Data server
