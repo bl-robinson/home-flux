@@ -21,8 +21,8 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: arc
-    values:
-      githubConfigSecret: git-token
+  values:
+    githubConfigSecret: git-token
   releaseName: arc
   install:
     remediation:
@@ -34,7 +34,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: arc
+  name: docker-dns-runners
 spec:
   interval: 10m
   timeout: 5m
@@ -45,9 +45,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: arc
-    values:
-      githubConfigSecret: git-token
-      githubConfigUrl: "https://github.com/bl-robinson/docker-dns"
+  values:
+    githubConfigSecret: git-token
+    githubConfigUrl: "https://github.com/bl-robinson/docker-dns"
   releaseName: docker-dns-runners
   install:
     remediation:
