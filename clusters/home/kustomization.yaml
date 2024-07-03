@@ -10,5 +10,6 @@ resources:
   - adguard.yaml
   - unifi.yaml
   - monitoring.yaml
+  - github-arc.yaml
   # - immich.yaml
   # - mail.yaml
