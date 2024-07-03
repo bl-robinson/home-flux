@@ -21,6 +21,8 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: arc
+    values:
+      githubConfigSecret: git-token
   releaseName: arc
   install:
     remediation:
