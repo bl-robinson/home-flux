@@ -48,6 +48,8 @@ spec:
   values:
     githubConfigSecret: git-token
     githubConfigUrl: "https://github.com/bl-robinson/docker-dns"
+    containerMode:
+      type: dind
   releaseName: docker-dns-runners
   install:
     remediation:
@@ -73,6 +75,8 @@ spec:
   values:
     githubConfigSecret: git-token
     githubConfigUrl: "https://github.com/bl-robinson/docker-web"
+    containerMode:
+      type: dind
   releaseName: docker-web-runners
   install:
     remediation:
@@ -98,6 +102,8 @@ spec:
   values:
     githubConfigSecret: git-token
     githubConfigUrl: "https://github.com/bl-robinson/docker-mail"
+    containerMode:
+      type: dind
   releaseName: docker-mail-runners
   install:
     remediation:
