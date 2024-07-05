@@ -50,6 +50,9 @@ spec:
     githubConfigUrl: "https://github.com/bl-robinson/docker-dns"
     containerMode:
       type: dind
+    template:
+      spec:
+        serviceAccountName: dns-deployment-access
   releaseName: docker-dns-runners
   install:
     remediation:
