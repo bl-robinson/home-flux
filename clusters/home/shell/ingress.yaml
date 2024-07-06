@@ -7,7 +7,7 @@ spec:
     app.kubernetes.io/name: ssh
   type: LoadBalancer
   externalTrafficPolicy: Cluster
-  loadBalancerIP: 10.0.0.103
+  loadBalancerIP: 10.0.0.105
   ports:
     - name: tcp
       protocol: TCP
