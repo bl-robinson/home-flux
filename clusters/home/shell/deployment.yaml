@@ -38,7 +38,7 @@ spec:
           value: "true"
         volumeMounts:
           - name: screenshots
-            mountPath: /home/benr/screenshots
+            mountPath: /config/screenshots
       volumes:
       - name: screenshots
         nfs:
