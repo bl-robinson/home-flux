@@ -2,5 +2,5 @@ namespace: github-arc
 
 resources:
   - namespace.yaml
-  - dns-deployment-perms.yaml
+  - dns-deployment.yaml
   - helm.yaml
