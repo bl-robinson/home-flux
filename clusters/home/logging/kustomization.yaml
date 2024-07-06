@@ -1,0 +1,5 @@
+namespace: logging
+
+resources:
+  - namespace.yaml
+  - helm.yaml

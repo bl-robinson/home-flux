@@ -12,5 +12,6 @@ resources:
   - monitoring.yaml
   - github-arc.yaml
   - shell.yaml
+  - logging.yaml
   # - immich.yaml
   # - mail.yaml

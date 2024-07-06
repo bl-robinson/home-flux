@@ -1,0 +1,30 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: logging-operator
+spec:
+  interval: 5m0s
+  type: oci
+  url: oci://ghcr.io/kube-logging/helm-charts/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: logging-operator
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: logging-operator
+      version: '4.3.0'
+      sourceRef:
+        kind: HelmRepository
+        name: logging-operator
+  releaseName: logging-operator
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
