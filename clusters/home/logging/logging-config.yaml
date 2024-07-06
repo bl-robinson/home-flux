@@ -13,16 +13,14 @@ metadata:
   name: logging-agent
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
-kind: Flow
+kind: ClusterFlow
 metadata:
-  name: log-generator
+  name: clusterflow
 spec:
+  globalOutputRefs:
+    - forward-output
   match:
-    - select:
-        labels:
-          app.kubernetes.io/name: log-generator
-  localOutputRefs:
-    - http
+    - select: {}
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: Output
