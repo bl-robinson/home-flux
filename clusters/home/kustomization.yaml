@@ -11,5 +11,6 @@ resources:
   - unifi.yaml
   - monitoring.yaml
   - github-arc.yaml
+  - shell.yaml
   # - immich.yaml
   # - mail.yaml
