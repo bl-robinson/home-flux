@@ -24,6 +24,8 @@ spec:
           - name: home-cert
             mountPath: /etc/cert
             readOnly: true
+          - name: screenshots
+            mountPath: /var/www/vhosts/screenshots
         imagePullPolicy: Always
         resources:
           requests:
@@ -36,6 +38,10 @@ spec:
         - name: home-cert
           secret:
             secretName: home-cert
+        - name: screenshots
+          nfs:
+            server: 10.0.0.11 # TODO MAKE DNS?
+            path: /mnt/screenshots
 ---
 apiVersion: v1
 kind: Service
