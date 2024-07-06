@@ -3,4 +3,4 @@ namespace: logging
 resources:
   - namespace.yaml
   - helm.yaml
-  - logging-config.yaml
+  # - logging-config.yaml
