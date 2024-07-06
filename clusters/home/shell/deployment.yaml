@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: ssh
   labels:
-    app: ssh
+    app.kubernetes.io/name: ssh
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ssh
+      app.kubernetes.io/name: ssh
   template:
     metadata:
       labels:
-        app: ssh
+        app.kubernetes.io/name: ssh
     spec:
       containers:
       - name: ssh
