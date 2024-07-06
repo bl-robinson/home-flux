@@ -23,6 +23,9 @@ spec:
     githubConfigUrl: "https://github.com/bl-robinson/docker-web"
     containerMode:
       type: dind
+    template:
+      spec:
+        serviceAccountName: web-deployment-access
   releaseName: docker-web-runners
   install:
     remediation:
