@@ -1,32 +1,33 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+apiVersion: v1
+kind: ServiceAccount
 metadata:
-  name: arc
-spec:
-  interval: 5m0s
-  type: oci
-  url: oci://ghcr.io/actions/actions-runner-controller-charts
+  name: web-deployment-access
+  namespace: github-arc
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: arc
+  name: docker-web-runners
 spec:
   interval: 10m
   timeout: 5m
   chart:
     spec:
-      chart: gha-runner-scale-set-controller
+      chart: gha-runner-scale-set
       version: '0.9.3'
       sourceRef:
         kind: HelmRepository
         name: arc
   values:
     githubConfigSecret: git-token
-  releaseName: arc
+    githubConfigUrl: "https://github.com/bl-robinson/docker-web"
+    containerMode:
+      type: dind
+  releaseName: docker-web-runners
   install:
     remediation:
       retries: 3
   upgrade:
     remediation:
       retries: 3
+
