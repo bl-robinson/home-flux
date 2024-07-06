@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: deploy-access
+  name: deploy-access-web
 rules:
 - apiGroups: ["apps"]
   resources: ["deployments", "replicasets", "pods"]
@@ -18,5 +18,5 @@ subjects:
   namespace: github-arc
 roleRef:
   kind: Role
-  name: deploy-access
+  name: deploy-access-web
   apiGroup: rbac.authorization.k8s.io
