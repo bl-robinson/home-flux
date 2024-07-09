@@ -32,8 +32,9 @@ spec:
           url: http://prometheus.monitoring.svc.cluster.local:9090
           editable: false
         - name: loki
-          type: Loki
+          type: loki
           url: http://loki-gateway.logging.svc.cluster.local
+          editable: false
     # Provision grafana-dashboards-kubernetes
     dashboardProviders:
       dashboardproviders.yaml:
