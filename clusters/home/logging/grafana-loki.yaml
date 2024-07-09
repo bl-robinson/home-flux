@@ -24,21 +24,34 @@ spec:
         name: grafana
         namespace: logging
   values:
-    schemaConfig:
-      configs:
-        - from: "2024-04-01"
-          store: tsdb
-          object_store: s3
-          schema: v13
-          index:
-            prefix: loki_index_
-            period: 24h
     ingester:
       chunk_encoding: snappy
     tracing:
       enabled: true
     querier:
       max_concurrent: 4
+    deploymentMode: Distributed
+    backend:
+      persistence:
+        selector:
+          matchLabels:
+            volume: loki
+    schemaConfig:
+      configs:
+        - from: "2024-04-01"
+          store: tsdb
+          object_store: filesystem
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+    storage_config:
+      tsdb_shipper:
+        active_index_directory: /var/lib/loki/data/tsdb-index
+        cache_location: /var/lib/loki/data/tsdb-cache
+        shared_store: filesystem
+      filesystem:
+        directory: /var/lib/loki/data
   releaseName: grafana-loki
   install:
     remediation:
