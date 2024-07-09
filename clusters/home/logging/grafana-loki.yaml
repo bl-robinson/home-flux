@@ -24,35 +24,27 @@ spec:
         name: grafana
         namespace: logging
   values:
-    ingester:
-      chunk_encoding: snappy
-    tracing:
-      enabled: true
-    querier:
-      max_concurrent: 4
-    deploymentMode: Distributed
-    backend:
+    loki:
+      auth_enabled: false
+      commonConfig:
+        replication_factor: 1
+      storage:
+        type: filesystem
+      commonStorageConfig:
+        type: filesystem
+      rulerConfig:
+        storage:
+          type: local
+    singleBinary:
+      replicas: 1
       persistence:
-        selector:
-          matchLabels:
-            volume: loki
-    schemaConfig:
-      configs:
-        - from: "2024-04-01"
-          store: tsdb
-          object_store: filesystem
-          schema: v13
-          index:
-            prefix: loki_index_
-            period: 24h
-    storage_config:
-      tsdb_shipper:
-        active_index_directory: /var/lib/loki/data/tsdb-index
-        cache_location: /var/lib/loki/data/tsdb-cache
-        shared_store: filesystem
-      filesystem:
-        directory: /var/lib/loki/data
-  releaseName: grafana-loki
+        storageClass: local-loki
+        enabled: true
+        size: 5Gi
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 24h
+      releaseName: grafana-loki
   install:
     remediation:
       retries: 3

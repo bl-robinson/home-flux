@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: loki
-  labels:
-    volume: loki
+  name: loki-db
 spec:
+  storageClassName: local-loki
   capacity:
     storage: 10Gi
   volumeMode: Filesystem
