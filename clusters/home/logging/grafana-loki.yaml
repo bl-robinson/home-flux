@@ -38,7 +38,9 @@ spec:
     singleBinary:
       replicas: 1
       persistence:
-        storageClass: local-loki
+        selector:
+          matchLabels:
+            volume: loki
         enabled: true
         size: 5Gi
     table_manager:
