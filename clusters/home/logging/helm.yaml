@@ -21,6 +21,13 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: logging-operator
+  values:
+    createCustomResource: true
+    monitoring:
+      serviceMonitor:
+        enabled: true
+    logging:
+      control-namespace: logging
   releaseName: logging-operator
   install:
     remediation:
