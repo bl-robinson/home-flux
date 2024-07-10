@@ -28,7 +28,7 @@ metadata:
   name: loki-output
 spec:
   loki:
-    url: http://logging-loki.logging.svc.cluster.local:3100
+    url: http://loki-gateway.logging.svc.cluster.local
     buffer:
       timekey: 1m
       timekey_wait: 30s
