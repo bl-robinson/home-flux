@@ -18,20 +18,18 @@ metadata:
   name: clusterflow
 spec:
   globalOutputRefs:
-    - forward-output
+    - loki-output
   match:
     - select: {}
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
-kind: Output
+kind: ClusterOutput
 metadata:
-  name: http
+  name: loki-output
 spec:
-  http:
-    endpoint: http://logging-operator-test-receiver:8080
-    content_type: application/json
+  loki:
+    url: http://logging-loki.logging.svc.cluster.local:3100
     buffer:
-      type: memory
-      tags: time
-      timekey: 1s
-      timekey_wait: 0s
+      timekey: 1m
+      timekey_wait: 30s
+      timekey_use_utc: true
