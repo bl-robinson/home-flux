@@ -22,7 +22,7 @@ spec:
         kind: HelmRepository
         name: logging-operator
   values:
-    createCustomResource: false
+    createCustomResource: false # Not sure how these got into the cluster without this... but they did....
     monitoring:
       serviceMonitor:
         enabled: true
