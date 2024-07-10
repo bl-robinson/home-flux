@@ -4,6 +4,7 @@ metadata:
   name: logging
 spec:
   controlNamespace: logging
+  allowClusterResourcesFromAllNamespaces: true
   fluentd:
     disablePvc: true
 ---
