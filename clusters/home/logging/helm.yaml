@@ -22,7 +22,7 @@ spec:
         kind: HelmRepository
         name: logging-operator
   values:
-    createCustomResource: true
+    createCustomResource: false
     monitoring:
       serviceMonitor:
         enabled: true
