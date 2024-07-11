@@ -60,3 +60,9 @@ I have actively chosen to split independent 'Applications' into their own Kustom
   - mailserver - I have a year of AWS free tier... so going to leave it there "for now" until I consider moving it back...
 - Data server
   - This really should not be another VM. Invest in a proper fileserver at some point.
+
+## BUGS
+
+- Sometimes adding new HTTPRoutes does not work...
+  - They are accepted by the API... But... Cillium does not "Accept" them.
+  - If the HTTPRoute does not have a Status "Accepted HTTPRoute" try restarting cillium deployments/daemonsets. (I have not worked out exactly what made this work yet.)
