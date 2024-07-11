@@ -84,7 +84,7 @@ metadata:
   name: nginx-ingress-http
 spec:
   parentRefs:
-  - name: web-ingress
+  - name: nginx-ingress
     kind: Gateway
     sectionName: http
   rules:
