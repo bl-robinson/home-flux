@@ -9,6 +9,4 @@ spec:
     kind: ClusterIssuer
     name: letsencrypt
   dnsNames:
-  - home.blrobinson.uk
-  - mail.home.blrobinson.uk
-  # - mail.blrobinson.uk
+  - mail.blrobinson.uk
