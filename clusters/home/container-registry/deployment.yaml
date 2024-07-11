@@ -23,9 +23,6 @@ spec:
         - name: registry-data
           mountPath: /var/lib/registry
       volumes:
-      - name: registry-certs
-        secret:
-          secretName: container-registry-cert
       - name: registry-data
         nfs:
           server: 10.0.0.11 # TODO MAKE DNS?
