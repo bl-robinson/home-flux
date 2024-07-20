@@ -8,7 +8,7 @@ resources:
   - cert-manager.yaml
   - web-ingress.yaml
   - adguard.yaml
-  - unifi.yaml
+  # - unifi.yaml # Upgraded to the UCG so nolonger need to run own controller
   - monitoring.yaml
   - github-arc.yaml
   - shell.yaml
