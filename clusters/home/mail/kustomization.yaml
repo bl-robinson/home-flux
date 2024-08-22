@@ -2,7 +2,7 @@ namespace: mail
 
 resources:
   - namespace.yaml
-  - certificate.yaml
-  - ingress.yaml
-  - deployment.yaml
-  - deploy-access.yaml
+  # - certificate.yaml
+  # - ingress.yaml
+  # - deployment.yaml
+  # - deploy-access.yaml
