@@ -45,6 +45,7 @@ spec:
       storageClass: ""
     ingress:
       enabled: true
+      existingSecret: mail-cert
     front:
       hostPort:
         enabled: false
