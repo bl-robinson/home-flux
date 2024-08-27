@@ -2,8 +2,8 @@ namespace: mail
 
 resources:
   - namespace.yaml
+  - certificate.yaml
   - mailu-helm.yaml
-  # - certificate.yaml
   # - ingress.yaml
   # - deployment.yaml
   # - deploy-access.yaml
