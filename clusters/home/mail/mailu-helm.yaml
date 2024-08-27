@@ -12,7 +12,7 @@ metadata:
   name: mailu
 spec:
   interval: 10m
-  timeout: 5m
+  timeout: 15m
   chart:
     spec:
       chart: mailu
