@@ -23,6 +23,7 @@ spec:
   values:
     hostnames:
       - mail.blrobinson.uk
+      - blrobinson.uk
     domain: blrobinson.uk
     # existingSecret: mailu_sec
     # secret: ""
