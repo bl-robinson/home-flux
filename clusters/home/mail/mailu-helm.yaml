@@ -40,6 +40,8 @@ spec:
       existingSecret: sendgrid-sec
       usernameKey: user
       passwordKey: password
+      networks:
+        - 192.168.0.0/16
     tls:
       outboundLevel: encrypt
     persistence:
