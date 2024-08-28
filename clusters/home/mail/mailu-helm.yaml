@@ -35,13 +35,13 @@ spec:
       # existingSecretPasswordKey: ""
       mode: update
     subnet: 192.168.0.0/16
-    externalRelay:
-      host: "[smtp.sendgrid.net]:2525"
-      existingSecret: sendgrid-sec
-      usernameKey: user
-      passwordKey: password
-      networks:
-        - 192.168.0.0/16
+    # externalRelay:
+    #   host: "[smtp.sendgrid.net]:2525"
+    #   existingSecret: sendgrid-sec
+    #   usernameKey: user
+    #   passwordKey: password
+    #   networks:
+    #     - 192.168.0.0/16
     tls:
       outboundLevel: encrypt
     persistence:
