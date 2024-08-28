@@ -40,9 +40,8 @@ spec:
       existingSecret: sendgrid-sec
       usernameKey: user
       passwordKey: password
-    postfix:
-      extraEnvVars:
-        OUTBOUND_TLS_LEVEL: encrypt
+    tls:
+      outboundLevel: encrypt
     persistence:
       single_pvc: true
       size: 50Gi
