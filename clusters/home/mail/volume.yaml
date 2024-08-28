@@ -13,3 +13,19 @@ spec:
   nfs:
     server: 10.0.0.11
     path: "/mnt/mail"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mail-pvc
+spec:
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  volumeName: mail-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: mail-volume
