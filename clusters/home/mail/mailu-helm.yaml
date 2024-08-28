@@ -40,7 +40,7 @@ spec:
       size: 50Gi
       accessModes:
         - ReadWriteOnce
-      existingClaim: "mail-volume"
+      existingClaim: "mail-pvc"
       storageClass: ""
     ingress:
       enabled: true
