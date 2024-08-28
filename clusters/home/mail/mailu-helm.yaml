@@ -35,6 +35,11 @@ spec:
       # existingSecretPasswordKey: ""
       mode: update
     subnet: 192.168.0.0/16
+    externalRelay:
+      host: "[smtp.sendgrid.net]:587"
+      existingSecret: sendgrid-sec
+      usernameKey: user
+      passwordKey: password
     persistence:
       single_pvc: true
       size: 50Gi
