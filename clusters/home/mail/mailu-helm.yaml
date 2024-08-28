@@ -43,9 +43,7 @@ spec:
       existingClaim: "mail-pvc"
       storageClass: ""
     ingress:
-      enabled: true
-      ingressClassName: cilium
-      existingSecret: mail-cert
+      enabled: false
     front:
       hostPort:
         enabled: false
