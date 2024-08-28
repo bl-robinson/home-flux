@@ -74,7 +74,7 @@ spec:
   - unifi.blrobinson.uk
   - adguard.blrobinson.uk
   - grabs.blrobinson.uk
-  - mail.blrobinson.uk
+  # - mail.blrobinson.uk
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
