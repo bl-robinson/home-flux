@@ -44,6 +44,7 @@ spec:
       storageClass: ""
     ingress:
       enabled: true
+      ingressClassName: cilium
       existingSecret: mail-cert
     front:
       hostPort:
