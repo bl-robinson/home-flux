@@ -52,7 +52,7 @@ spec:
         enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Cluster
-        loadBalancerIp: 10.0.0.104
+        loadBalancerIP: 10.0.0.104
     redis:
       master:
         persistence:
