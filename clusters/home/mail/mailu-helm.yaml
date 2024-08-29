@@ -58,7 +58,7 @@ spec:
       externalService:
         enabled: true
         type: LoadBalancer
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local
         loadBalancerIP: 10.0.0.104
     redis:
       master:
