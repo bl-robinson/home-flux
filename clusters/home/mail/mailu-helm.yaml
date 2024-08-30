@@ -30,9 +30,8 @@ spec:
       enabled: true
       username: benr
       domain: blrobinson.uk
-      # password: ""
-      # existingSecret: ""
-      # existingSecretPasswordKey: ""
+      existingSecret: "mailu-initial-account"
+      existingSecretPasswordKey: "initial-account-password"
       mode: update
     subnet: 192.168.0.0/16
     externalRelay:
