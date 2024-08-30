@@ -14,4 +14,4 @@ resources:
   - shell.yaml
   - logging.yaml
   # - immich.yaml
-  # - mail.yaml
+  - mail.yaml
