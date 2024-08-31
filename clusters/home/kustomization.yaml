@@ -13,5 +13,5 @@ resources:
   - github-arc.yaml
   - shell.yaml
   - logging.yaml
-  # - immich.yaml
+  - immich.yaml
   - mail.yaml
