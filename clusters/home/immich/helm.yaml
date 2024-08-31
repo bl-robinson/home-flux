@@ -27,8 +27,8 @@ spec:
       persistence: # Need to look at this, its completely wrong currently
         library:
           existingClaim: immich-pvc
-      redis:
-        enabled: true
+    redis:
+      enabled: true
   releaseName: immich
   install:
     remediation:
