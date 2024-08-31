@@ -21,6 +21,8 @@ spec:
         kind: HelmRepository
         name: immich
   values:
+    image:
+      tag: v1.106.1
     immich:
       metrics:
         enabled: true
@@ -28,6 +30,8 @@ spec:
         library:
           existingClaim: immich-pvc
     redis:
+      enabled: true
+    postgresql:
       enabled: true
   releaseName: immich
   install:
