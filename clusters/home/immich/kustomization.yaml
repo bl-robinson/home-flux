@@ -2,5 +2,5 @@ namespace: immich
 
 resources:
   - namespace.yaml
-  - volume.yaml
+  - volumes.yaml
   - helm.yaml

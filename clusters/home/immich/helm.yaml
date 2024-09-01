@@ -31,8 +31,19 @@ spec:
           existingClaim: immich-pvc
     redis:
       enabled: true
+      master:
+        persistance:
+          enabled: true
+          existingClaim: immich-redis-master-pvc
+      replica:
+        persistance:
+          enabled: true
+          existingClaim: immich-redis-replica-pvc
     postgresql:
       enabled: true
+      persistance:
+        enabled: true
+        existingClaim: immich-postgres-pvc
   releaseName: immich
   install:
     remediation:
