@@ -44,6 +44,10 @@ spec:
             password: immich
             database: immich
       primary:
+        readinessProbe:
+          initialDelaySeconds: 60
+        livenessProbe:
+          initialDelaySeconds: 60
         persistence:
           enabled: true
           existingClaim: immich-postgres-pvc
