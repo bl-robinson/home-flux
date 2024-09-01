@@ -26,7 +26,7 @@ spec:
     immich:
       metrics:
         enabled: true
-      persistence: # Need to look at this, its completely wrong currently
+      persistence:
         library:
           existingClaim: immich-pvc
     redis:
@@ -41,6 +41,14 @@ spec:
         persistence:
           enabled: true
           existingClaim: immich-postgres-pvc
+        initdb:
+          scripts:
+            create-extensions.sql: |
+              CREATE EXTENSION cube;
+              CREATE EXTENSION earthdistance;
+              CREATE EXTENSION vectors;
+            create-database.sql: |
+              CREATE DATABASE immich;
   releaseName: immich
   install:
     remediation:
