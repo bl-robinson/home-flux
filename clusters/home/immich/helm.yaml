@@ -32,7 +32,7 @@ spec:
     redis:
       enabled: true
       master:
-        persistance:
+        persistence:
           enabled: true
           existingClaim: immich-redis-master-pvc
       replica:
