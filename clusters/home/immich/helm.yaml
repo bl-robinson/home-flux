@@ -36,13 +36,13 @@ spec:
           enabled: true
           existingClaim: immich-redis-master-pvc
       replica:
-        persistance:
+        persistence:
           enabled: true
           existingClaim: immich-redis-replica-pvc
     postgresql:
       enabled: true
       primary:
-        persistance:
+        persistence:
           enabled: true
           existingClaim: immich-postgres-pvc
   releaseName: immich
