@@ -37,18 +37,16 @@ spec:
           existingClaim: immich-redis-master-pvc
     postgresql:
       enabled: true
+      global:
+        postgresql:
+          auth:
+            username: immich
+            password: immich
+            database: immich
       primary:
         persistence:
           enabled: true
           existingClaim: immich-postgres-pvc
-        initdb:
-          scripts:
-            create-extensions.sql: |
-              CREATE EXTENSION cube;
-              CREATE EXTENSION earthdistance;
-              CREATE EXTENSION vectors;
-            create-database.sql: |
-              CREATE DATABASE immich;
   releaseName: immich
   install:
     remediation:
