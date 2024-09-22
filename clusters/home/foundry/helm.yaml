@@ -36,7 +36,7 @@ spec:
       version: "12.331"
       hostname: "foundry.blrobinson.uk"
     persistence:
-      storageClass: foundry
+      storageClass: default
       dataDir:
         enabled: True
         size: 100Gi
