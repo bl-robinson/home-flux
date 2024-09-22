@@ -30,6 +30,7 @@ spec:
     container:
       version: "12.331.0"
       cache: "/data/Data/container_cache"
+      preserveConfig: true
     foundryvtt:
       version: "12.331"
       hostname: "foundry.blrobinson.uk"
