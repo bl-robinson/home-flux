@@ -23,6 +23,8 @@ spec:
         kind: HelmRepository
         name: foundry-vtt
   values:
+    service:
+      serviceType: ClusterIP
     image:
       tag: "12.331.0"
     container:
