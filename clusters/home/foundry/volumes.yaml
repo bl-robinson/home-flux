@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: foundry-data
+  annotations:
+    volume.beta.kubernetes.io/storage-class: default
   labels:
     volume: foundry-data
 spec:
