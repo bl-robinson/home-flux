@@ -15,6 +15,7 @@ metadata:
 spec:
   interval: 10m
   timeout: 5m
+  releaseName: foundry
   chart:
     spec:
       chart: foundry-vtt
@@ -39,16 +40,14 @@ spec:
         adminPasswordKey: "adminPassword"
         licenseKey: "licenseKey"
     persistence:
+      dataDir:
+        enabled: True
       shared:
         enabled: true
         mounts:
-          - containerPath: ""
-            type: pvc
-            claimName: "foundry-data-pvc"
           - containerPath: "/container_cache"
             type: pvc
             claimName: "foundry-container-cache-pvc"
-        releaseName: foundry
   install:
     remediation:
       retries: 3
