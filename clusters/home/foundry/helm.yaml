@@ -34,6 +34,7 @@ spec:
     foundryvtt:
       version: "12.331"
       hostname: "foundry.blrobinson.uk"
+      licenseKey: true
     persistence:
       shared:
         enabled: true
