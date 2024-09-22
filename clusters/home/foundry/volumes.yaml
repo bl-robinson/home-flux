@@ -29,3 +29,35 @@ spec:
   selector:
     matchLabels:
       volume: foundry-data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: foundry-container-cache
+  labels:
+    volume: foundry-container-cache
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/foundry-container-cache"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: foundry-container-cache-pvc
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: foundry-container-cache
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: foundry-container-cache

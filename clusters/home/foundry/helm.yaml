@@ -28,6 +28,9 @@ spec:
           - containerPath: ""
             type: pvc
             claimName: "foundry-data-pvc"
+          - containerPath: "container_cache"
+            type: pvc
+            claimName: "foundry-container-cache-pvc"
         releaseName: foundry
   install:
     remediation:
