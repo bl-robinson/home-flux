@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
   name: foundry-data
   annotations:
-    volume.beta.kubernetes.io/storage-class: default
+    volume.beta.kubernetes.io/storage-class: foundry
   labels:
     volume: foundry-data
 spec:
