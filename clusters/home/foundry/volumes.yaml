@@ -15,22 +15,6 @@ spec:
     path: "/mnt/foundry"
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: foundry-data-pvc
-spec:
-  resources:
-    requests:
-      storage: 100Gi
-  volumeMode: Filesystem
-  volumeName: foundry-data
-  accessModes:
-    - ReadWriteOnce
-  selector:
-    matchLabels:
-      volume: foundry-data
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: foundry-container-cache

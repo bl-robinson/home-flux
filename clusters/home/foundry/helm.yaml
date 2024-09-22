@@ -42,6 +42,7 @@ spec:
     persistence:
       dataDir:
         enabled: True
+        size: 100Gi
       shared:
         enabled: true
         mounts:
