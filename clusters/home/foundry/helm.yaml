@@ -21,8 +21,7 @@ spec:
         kind: HelmRepository
         name: foundry-vtt
   values:
-    persistance:
-      storageClass: foundry
+    persistence:
       dataDir:
         enabled: true
         size: 100Gi
