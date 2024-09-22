@@ -22,11 +22,20 @@ spec:
         name: foundry-vtt
   values:
     persistence:
-      dataDir:
+      shared:
         enabled: true
-        size: 100Gi
-
-  releaseName: foundry
+        mounts:
+          - containerPath: "/shared"
+            type: pvc
+            readOnly: true
+            claimName: "shared"
+          - containerPath: "/files/assets"
+            type: pvc
+            claimName: "files"
+          - containerPath: "/data/Data"
+            type: pvc
+            claimName: "data"
+        releaseName: foundry
   install:
     remediation:
       retries: 3
