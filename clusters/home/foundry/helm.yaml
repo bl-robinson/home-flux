@@ -14,7 +14,7 @@ metadata:
   namespace: foundry
 spec:
   interval: 10m
-  timeout: 15m
+  timeout: 5m
   chart:
     spec:
       chart: foundry-vtt
