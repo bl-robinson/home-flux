@@ -28,13 +28,13 @@ spec:
           - containerPath: "/shared"
             type: pvc
             readOnly: true
-            claimName: "shared"
+            claimName: "foundry-shared"
           - containerPath: "/files/assets"
             type: pvc
-            claimName: "files"
+            claimName: "foundry-files"
           - containerPath: "/data/Data"
             type: pvc
-            claimName: "data"
+            claimName: "foundry-data"
         releaseName: foundry
   install:
     remediation:
