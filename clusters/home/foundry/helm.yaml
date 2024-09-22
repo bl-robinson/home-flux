@@ -25,14 +25,7 @@ spec:
       shared:
         enabled: true
         mounts:
-          - containerPath: "/shared"
-            type: pvc
-            readOnly: true
-            claimName: "foundry-shared-pvc"
-          - containerPath: "/files/assets"
-            type: pvc
-            claimName: "foundry-files-pvc"
-          - containerPath: "/data/Data"
+          - containerPath: ""
             type: pvc
             claimName: "foundry-data-pvc"
         releaseName: foundry
