@@ -2,6 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: foundry-vtt
+  namespace: foundry
 spec:
   interval: 5m0s
   url: https://hugoprudente.github.io/helm-charts/incubator/
@@ -10,6 +11,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: foundry
+  namespace: foundry
 spec:
   interval: 10m
   timeout: 15m
@@ -21,6 +23,8 @@ spec:
         kind: HelmRepository
         name: foundry-vtt
   values:
+    image:
+      tag: "12.331.0"
     container:
       version: "12.331.0"
       cache: "/data/Data/container_cache"
