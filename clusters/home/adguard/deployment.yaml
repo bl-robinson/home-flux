@@ -222,8 +222,10 @@ spec:
           mountPath: /opt/adguardhome/conf
         resources:
           requests:
+            cpu: "150m"
             memory: "512Mi"
           limits:
+            cpu: "150m"
             memory: "512Mi"
       volumes:
       - name: adguard-work
