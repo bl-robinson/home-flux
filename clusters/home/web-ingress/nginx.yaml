@@ -89,8 +89,7 @@ spec:
     kind: Gateway
     sectionName: http
   rules:
-  - matches:
-    backendRefs:
+  - backendRefs:
       - name: web
         port: 80
 ---

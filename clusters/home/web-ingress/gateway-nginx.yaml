@@ -16,9 +16,10 @@ spec:
         from: All
   - name: https
     port: 443
-    protocol: HTTPS
+    protocol: TLS
+    allowedRoutes:
+      namespaces:
+        from: All
     tls:
       mode: Passthrough
-      # certificateRefs:
-      #   - kind: Secret
-      #     name: home-cert
+
