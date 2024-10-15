@@ -78,7 +78,6 @@ spec:
   - immich.blrobinson.uk
   - shed-cam.blrobinson.uk
   - foundry.blrobinson.uk
-  - www.blrobinson.uk
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
