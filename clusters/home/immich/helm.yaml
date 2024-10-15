@@ -32,6 +32,13 @@ spec:
     redis:
       enabled: true
       master:
+        resources:
+          limits:
+            cpu: 256m
+            memory: 512Mi
+          requests:
+            cpu: 256m
+            memory: 512Mi
         persistence:
           enabled: true
           existingClaim: immich-redis-master-pvc
