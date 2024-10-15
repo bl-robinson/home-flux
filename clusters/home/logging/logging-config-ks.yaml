@@ -9,6 +9,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-flux
+    namespace: flux-system
   path: "./clusters/home/logging/logging-config"
   prune: true
   timeout: 1m
