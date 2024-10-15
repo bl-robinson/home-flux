@@ -5,4 +5,4 @@ resources:
   - helm.yaml
   - loki-volume.yaml
   - grafana-loki.yaml
-  - logging-ks.yaml
+  - logging-config-ks.yaml
