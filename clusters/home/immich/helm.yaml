@@ -16,13 +16,13 @@ spec:
   chart:
     spec:
       chart: immich
-      version: '0.8.1'
+      version: '0.8.2'
       sourceRef:
         kind: HelmRepository
         name: immich
   values:
     image:
-      tag: v1.117.0
+      tag: v1.118.0
     immich:
       metrics:
         enabled: true
