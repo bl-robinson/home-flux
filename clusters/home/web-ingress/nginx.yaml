@@ -21,7 +21,7 @@ spec:
           - containerPort: 80
           - containerPort: 443
         volumeMounts:
-          - name: home-cert
+          - name: public-cert
             mountPath: /etc/cert
             readOnly: true
           - name: screenshots
@@ -35,9 +35,9 @@ spec:
             cpu: "150m"
             memory: "128Mi"
       volumes:
-        - name: home-cert
+        - name: public-cert
           secret:
-            secretName: home-cert
+            secretName: public-cert
         - name: screenshots
           nfs:
             server: 10.0.0.11 # TODO MAKE DNS?
@@ -64,9 +64,9 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nginx-cert
+  name: public-cert
 spec:
-  secretName: home-cert
+  secretName: public-cert
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt

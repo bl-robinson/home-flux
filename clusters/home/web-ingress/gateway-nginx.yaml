@@ -21,5 +21,7 @@ spec:
       namespaces:
         from: All
     tls:
-      mode: Passthrough
-
+      mode: Terminate
+      certificateRefs:
+        - kind: Secret
+          name: public-cert

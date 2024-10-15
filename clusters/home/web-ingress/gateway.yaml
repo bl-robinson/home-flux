@@ -24,14 +24,14 @@ spec:
       mode: Terminate
       certificateRefs:
         - kind: Secret
-          name: main-cert
+          name: internals-cert
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: main-cert
+  name: internals-cert
 spec:
-  secretName: main-cert
+  secretName: internals-cert
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt
