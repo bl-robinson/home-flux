@@ -16,3 +16,4 @@ resources:
   - mail.yaml
   - foundry.yaml
   - headlamp.yaml
+  - home-assistant.yaml

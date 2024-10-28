@@ -1,0 +1,6 @@
+namespace: home-assistant
+
+resources:
+  - namespace.yaml
+  - helm.yaml
+
