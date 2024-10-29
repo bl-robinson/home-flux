@@ -24,6 +24,13 @@ spec:
         kind: HelmRepository
         name: pajikos
   values:
+    initContainers:
+      - name: init-hacs
+        image: bash
+        command: ["bash", "-c", "cd /config && wget -O - https://get.hacs.xyz | bash -"]
+        volumeMounts:
+          - mountPath: /config
+            name: home-assistant
     ingress:
       enabled: true
     persistence:
