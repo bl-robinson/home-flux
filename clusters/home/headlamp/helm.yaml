@@ -23,13 +23,13 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: headlamp
-      values:
-        requests:
-            cpu: "150m"
-            memory: "128Mi"
-        limits:
-          cpu: "150m"
-          memory: "128Mi"
+  values:
+    requests:
+        cpu: "150m"
+        memory: "128Mi"
+    limits:
+      cpu: "150m"
+      memory: "128Mi"
   install:
     remediation:
       retries: 3
