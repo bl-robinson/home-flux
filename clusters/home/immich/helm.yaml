@@ -22,7 +22,7 @@ spec:
         name: immich
   values:
     image:
-      tag: v1.120.1
+      tag: v1.120.2
     immich:
       metrics:
         enabled: true
