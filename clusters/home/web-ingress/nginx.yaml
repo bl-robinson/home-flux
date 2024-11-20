@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: container-registry.k8s.home.blrobinson.uk/docker-web:sha-72fb34a
+        image: container-registry.k8s.home.blrobinson.uk/docker-web:sha-072ffe6
         ports:
           - containerPort: 80
           - containerPort: 443
