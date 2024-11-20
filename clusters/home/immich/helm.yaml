@@ -1,0 +1,90 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: immich
+spec:
+  interval: 5m0s
+  url: https://immich-app.github.io/immich-charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+spec:
+  interval: 10m
+  timeout: 10m
+  chart:
+    spec:
+      chart: immich
+      version: '0.8.2'
+      sourceRef:
+        kind: HelmRepository
+        name: immich
+  values:
+    image:
+      tag: v1.120.2
+    immich:
+      metrics:
+        enabled: true
+      persistence:
+        library:
+          existingClaim: immich-pvc
+    redis:
+      enabled: true
+      master:
+        resources:
+          limits:
+            cpu: 256m
+            memory: 512Mi
+          requests:
+            cpu: 256m
+            memory: 512Mi
+        persistence:
+          enabled: true
+          existingClaim: immich-redis-master-pvc
+    postgresql:
+      enabled: true
+      global:
+        postgresql:
+          auth:
+            username: immich
+            password: immich
+            database: immich
+      primary:
+        resources:
+          limits:
+            cpu: 512m
+            memory: 512Mi
+          requests:
+            cpu: 512m
+            memory: 512Mi
+        readinessProbe:
+          initialDelaySeconds: 60
+        livenessProbe:
+          initialDelaySeconds: 60
+        persistence:
+          enabled: true
+          existingClaim: immich-postgres-pvc
+    server:
+      resources:
+        limits:
+          cpu: 512m
+          memory: 512Mi
+        requests:
+          cpu: 512m
+          memory: 512Mi
+    machine-learning:
+      resources:
+        limits:
+          cpu: 512m
+          memory: 512Mi
+        requests:
+          cpu: 512m
+          memory: 512Mi
+  releaseName: immich
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3

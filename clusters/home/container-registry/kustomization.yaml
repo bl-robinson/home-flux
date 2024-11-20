@@ -1,0 +1,6 @@
+namespace: container-registry
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - ingress.yaml

@@ -1,0 +1,8 @@
+namespace: github-arc
+
+resources:
+  - namespace.yaml
+  - helm.yaml
+  - deploy-dns.yaml
+  - deploy-mail.yaml
+  - deploy-web.yaml

@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-volume
+  labels:
+    volume: immich-volume
+spec:
+  capacity:
+    storage: 50Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/immich/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-pvc
+spec:
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  volumeName: immich-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: immich-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-redis-master-volume
+  labels:
+    volume: immich-redis-master-volume
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/immich/redis-master"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-redis-master-pvc
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: immich-redis-master-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: immich-redis-master-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: immich-postgres-volume
+  labels:
+    volume: immich-postgres-volume
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/immich/postgres"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-postgres-pvc
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: immich-postgres-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: immich-postgres-volume
+---

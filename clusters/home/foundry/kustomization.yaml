@@ -1,0 +1,6 @@
+namespace: foundry
+
+resources:
+  - namespace.yaml
+  - volumes.yaml
+  - helm.yaml

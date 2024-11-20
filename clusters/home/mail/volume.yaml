@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mail-volume
+  labels:
+    volume: mail-volume
+spec:
+  capacity:
+    storage: 50Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/mail"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mail-pvc
+spec:
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  volumeName: mail-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: mail-volume

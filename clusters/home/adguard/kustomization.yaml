@@ -1,0 +1,6 @@
+namespace: adguard
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - ingress.yaml

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: dns
+  name: dns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dns
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: dns
+    spec:
+      containers:
+      - name: dns
+        image: container-registry.k8s.home.blrobinson.uk/docker-dns:latest
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "128Mi"
+          limits:
+            cpu: "150m"
+            memory: "128Mi"
+        ports:
+          - containerPort: 53
+        imagePullPolicy: Always

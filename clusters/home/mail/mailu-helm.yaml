@@ -1,0 +1,83 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: mailu
+spec:
+  interval: 5m0s
+  url: https://mailu.github.io/helm-charts/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mailu
+spec:
+  interval: 10m
+  timeout: 15m
+  chart:
+    spec:
+      chart: mailu
+      version: '2.1.1'
+      sourceRef:
+        kind: HelmRepository
+        name: mailu
+  values:
+    hostnames:
+      - mail.blrobinson.uk
+    domain: blrobinson.uk
+    # existingSecret: mailu_sec
+    # secret: ""
+    initialAccount:
+      enabled: true
+      username: benr
+      domain: blrobinson.uk
+      existingSecret: "mailu-initial-account"
+      existingSecretPasswordKey: "initial-account-password"
+      mode: update
+    subnet: 192.168.0.0/16
+    externalRelay:
+      host: "[smtp.sendgrid.net]:587"
+      existingSecret: sendgrid-sec
+      usernameKey: user
+      passwordKey: password
+    tls:
+      outboundLevel: encrypt
+    persistence:
+      single_pvc: true
+      size: 50Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "mail-pvc"
+      storageClass: ""
+    ingress:
+      enabled: false
+      existingSecret: mail-cert
+    front:
+      hostPort:
+        enabled: false
+      externalService:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 10.0.0.104
+    redis:
+      master:
+        persistence:
+          enabled: false
+    dovecot:
+      persistence:
+        claimNameOverride: ""
+    rspamd:
+      enabled: true
+    clamav:
+      enabled: false
+    webmail:
+      enabled: true
+      persistence:
+        claimNameOverride: ""
+  releaseName: mailu
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3

@@ -1,0 +1,16 @@
+resources:
+  - metallb.yaml
+  - container-registry.yaml
+  - dns.yaml
+  - cert-manager.yaml
+  - web-ingress.yaml
+  - adguard.yaml
+  - monitoring.yaml
+  - github-arc.yaml
+  - shell.yaml
+  - logging.yaml
+  - immich.yaml # Look at https://github.com/immich-app/immich-charts/blob/main/charts/immich/Chart.yaml for setting up persistence for psql/redis
+  - mail.yaml
+  - foundry.yaml
+  - headlamp.yaml
+  - home-assistant.yaml

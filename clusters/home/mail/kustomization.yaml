@@ -1,0 +1,10 @@
+namespace: mail
+
+resources:
+  - namespace.yaml
+  - certificate.yaml
+  - volume.yaml
+  - mailu-helm.yaml
+  # - ingress.yaml
+  # - deployment.yaml
+  # - deploy-access.yaml
