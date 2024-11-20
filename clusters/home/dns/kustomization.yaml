@@ -1,7 +1,6 @@
 namespace: dns
 
 resources:
-  - namespace.yaml
   - ingress.yaml
   - deployment.yaml
   - deploy-access.yaml
