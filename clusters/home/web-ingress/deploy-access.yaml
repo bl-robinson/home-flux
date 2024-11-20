@@ -4,8 +4,8 @@ kind: Role
 metadata:
   name: deploy-access-web
 rules:
-- apiGroups: ["kustomize.toolkit.fluxcd.io"]
-  resources: ["kustomizations"]
+- apiGroups: ["kustomize.toolkit.fluxcd.io", "apps"]
+  resources: ["kustomizations", "deployments", "replicasets"]
   verbs: ["get", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
