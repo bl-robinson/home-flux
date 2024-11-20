@@ -1,7 +1,6 @@
 namespace: ingress
 
 resources:
-  - namespace.yaml
   - gateway-nginx.yaml
   - nginx.yaml
   - gateway.yaml
