@@ -1,4 +1,0 @@
-namespace: logging
-
-resources:
-  - logging-config.yaml

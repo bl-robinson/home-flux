@@ -1,4 +1,0 @@
-namespace: cert-manager
-
-resources:
-  - issuer.yaml

@@ -1,8 +1,0 @@
-namespace: ingress
-
-resources:
-  - gateway-nginx.yaml
-  - nginx.yaml
-  - gateway.yaml
-  - deploy-access.yaml
-

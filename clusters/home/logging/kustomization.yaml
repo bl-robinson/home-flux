@@ -1,8 +1,0 @@
-namespace: logging
-
-resources:
-  - namespace.yaml
-  - helm.yaml
-  - loki-volume.yaml
-  - grafana-loki.yaml
-  - logging-config-ks.yaml

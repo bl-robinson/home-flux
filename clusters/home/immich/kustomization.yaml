@@ -1,6 +1,0 @@
-namespace: immich
-
-resources:
-  - namespace.yaml
-  - volumes.yaml
-  - helm.yaml
