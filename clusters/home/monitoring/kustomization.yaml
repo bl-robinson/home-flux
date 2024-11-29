@@ -10,3 +10,4 @@ resources:
   - kube-state-metrics.yaml
   - kubelet-monitor.yaml
   - api-server-monitor.yaml
+  - alarms.yaml

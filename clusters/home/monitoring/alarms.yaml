@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  creationTimestamp: null
+  labels:
+    prometheus: prometheus
+    role: alerts
+  name: node-status
+  namespace: monitoring
+spec:
+  groups:
+  - name: ./node-status.rules
+    rules:
+    - alert: NodeStatus
+      for: 2m
+      expr: kube_node_status_condition{status="true", condition="Ready"} != 1
+      annotations:
+        summary: "Node: {{ $labels.node }} is not in ready state!"
