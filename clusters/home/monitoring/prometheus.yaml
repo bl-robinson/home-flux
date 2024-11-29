@@ -16,6 +16,10 @@ spec:
     fsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
+  ruleSelector:
+    matchLabels:
+      role: alerts
+      prometheus: prometheus
   storage:
     volumeClaimTemplate:
         spec:
