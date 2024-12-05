@@ -11,3 +11,4 @@ resources:
   - kubelet-monitor.yaml
   - api-server-monitor.yaml
   - alarms.yaml
+  - alert-manager.yaml

@@ -1,0 +1,41 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  route:
+    groupBy: ['job']
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 12h
+    receiver: 'webhook'
+  receivers:
+  - name: 'webhook'
+    webhookConfigs:
+    - url: 'http://example.com/'
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 3
+  alertmanagerConfiguration:
+    name: alertmanager
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: alertmanager
+spec:
+  hostnames:
+  - alertmanager.k8s.home.blrobinson.uk
+  parentRefs:
+  - name: gateway-ingress
+    namespace: ingress
+  rules:
+  - backendRefs:
+    - name: alertmanager-operated
+      port: 9093
