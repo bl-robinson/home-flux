@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
-  name: alertmanager
+  name: alerts-config
   namespace: monitoring
 spec:
   route:
@@ -9,26 +9,30 @@ spec:
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 12h
-    receiver: 'webhook'
+    receiver: 'telegram_receiver'
   receivers:
-  - name: 'webhook'
-    webhookConfigs:
-    - url: 'http://example.com/'
+    - name: telegram_receiver
+      telegramConfigs:
+        - chatID: -4609103766
+          botToken:
+            key: token
+            name: alertmanager-telegram-secret
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
-  name: alertmanager
+  name: alerts
   namespace: monitoring
 spec:
   replicas: 3
   alertmanagerConfiguration:
-    name: alertmanager
+    name: alerts-config
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: alertmanager
+  name: alerts-web
+  namespace: monitoring
 spec:
   hostnames:
   - alertmanager.k8s.home.blrobinson.uk
