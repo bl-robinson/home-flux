@@ -69,10 +69,10 @@ spec:
       resources:
         limits:
           cpu: 512m
-          memory: 512Mi
+          memory: 1024Mi
         requests:
           cpu: 512m
-          memory: 512Mi
+          memory: 1024Mi
     machine-learning:
       resources:
         limits:
