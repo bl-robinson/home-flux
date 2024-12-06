@@ -13,7 +13,7 @@ spec:
         port: web
   nodeSelector:
     kubernetes.io/os: linux
-  replicas: 2
+  replicas: 3
   resources:
     requests:
       memory: 400Mi
@@ -41,7 +41,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: prometheus-store
+  name: prometheus-store-0
   labels:
     store: prometheus
 spec:
@@ -52,7 +52,7 @@ spec:
   - ReadWriteOnce
   nfs:
     server: 10.0.0.11
-    path: "/mnt/prometheus"
+    path: "/mnt/prometheus/prometheus-0"
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -68,7 +68,23 @@ spec:
   - ReadWriteOnce
   nfs:
     server: 10.0.0.11
-    path: "/mnt/prometheus-1"
+    path: "/mnt/prometheus/prometheus-1"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-store-2
+  labels:
+    store: prometheus
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/prometheus/prometheus-2"
 ---
 apiVersion: v1
 kind: Service
