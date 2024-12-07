@@ -1,0 +1,6 @@
+namespace: next-cloud
+
+resources:
+  - helm.yaml
+  - ingress.yaml
+
