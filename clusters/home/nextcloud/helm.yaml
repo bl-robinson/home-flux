@@ -30,7 +30,68 @@ spec:
         # secretName: nameofsecret
         usernameKey: nextcloud-username
         passwordKey: nextcloud-password
-      
+        tokenKey: ""
+        smtpUsernameKey: smtp-username
+        smtpPasswordKey: smtp-password
+        smtpHostKey: smtp-host
+    externalDatabase:
+      enabled: false
+      type: postgresql
+      host: ""
+      user: nextcloud
+      password: ""
+      existingSecret:
+        enabled: false
+        # secretName: nameofsecret
+        usernameKey: db-username
+        passwordKey: db-password
+    postgresql:
+      enabled: false
+      global:
+        postgresql:
+          auth:
+            username: nextcloud
+            password: changeme
+            database: nextcloud
+      primary:
+        persistence:
+          enabled: false
+          # Use an existing Persistent Volume Claim (must be created ahead of time)
+          # existingClaim: ""
+          # storageClass: ""
+    persistence:
+      # Nextcloud Data (/var/www/html)
+      enabled: false
+      annotations: {}
+      ## nextcloud data Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      # storageClass: "-"
+
+      ## A manually managed Persistent Volume and Claim
+      ## Requires persistence.enabled: true
+      ## If defined, PVC must be created manually before volume will be bound
+      # existingClaim:
+
+      accessMode: ReadWriteOnce
+      size: 8Gi
+
+      ## Use an additional pvc for the data directory rather than a subpath of the default PVC
+      ## Useful to store data on a different storageClass (e.g. on slower disks)
+      nextcloudData:
+        enabled: false
+        subPath:
+        annotations: {}
+        # storageClass: "-"
+        # existingClaim:
+        accessMode: ReadWriteOnce
+        size: 8Gi
+      metrics:
+        enabled: true
   releaseName: next-cloud
   install:
     remediation:

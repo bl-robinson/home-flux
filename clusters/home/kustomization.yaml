@@ -14,3 +14,4 @@ resources:
   - foundry.yaml
   - headlamp.yaml
   - home-assistant.yaml
+  - next-cloud.yaml
