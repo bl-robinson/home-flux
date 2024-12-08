@@ -21,10 +21,15 @@ spec:
         kind: HelmRepository
         name: next-cloud
   values:
+    phpClientHttpsFix:
+        enabled: true
+        protocol: https
     nextcloud:
-      host: nextcloud.blrobinson.uk
+      host: next-cloud.blrobinson.uk
       username: admin
       password: changeme
+      trustedDomains:
+        - next-cloud.blrobinson.uk
       existingSecret:
         enabled: false
         # secretName: nameofsecret
