@@ -68,11 +68,11 @@ spec:
     server:
       resources: # I run this WAY below the 'minimum spec' defined https://immich.app/docs/install/requirements/#hardware be aware when updating this frequently causes issues
         limits:
-          cpu: 512m
-          memory: 1024Mi
+          cpu: 2
+          memory: 2048Mi
         requests:
           cpu: 512m
-          memory: 1024Mi
+          memory: 2048Mi
     machine-learning:
       resources:
         limits:
