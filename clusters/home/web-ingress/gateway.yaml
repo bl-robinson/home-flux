@@ -40,3 +40,5 @@ spec:
   - prometheus.k8s.home.blrobinson.uk
   - grafana.k8s.home.blrobinson.uk
   - alertmanager.k8s.home.blrobinson.uk
+  - next-cloud.k8s.home.blrobinson.uk
+

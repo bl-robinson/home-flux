@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-data-volume
+  namespace: next-cloud
+  labels:
+    volume: nextcloud-data-volume
+spec:
+  capacity:
+    storage: 50Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/next-cloud/data"
+  mountOptions:
+    - async
+    - nfsvers=4.2
+    - noatime
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-data-pvc
+  namespace: next-cloud
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  volumeName: nextcloud-data-volume
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 50Gi
+  phase: Bound
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-postgres-volume
+  namespace: next-cloud
+  labels:
+    volume: nextcloud-postgres-volume
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.11
+    path: "/mnt/next-cloud/postgres"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-postgres-pvc
+  namespace: next-cloud
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  volumeName: nextcloud-postgres-volume
