@@ -80,7 +80,6 @@ spec:
   - foundry.blrobinson.uk
   - www.blrobinson.uk
   - home-assistant.blrobinson.uk
-  - next-cloud.blrobinson.uk
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
