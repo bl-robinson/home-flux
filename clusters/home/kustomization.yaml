@@ -12,5 +12,4 @@ resources:
   - immich.yaml # Look at https://github.com/immich-app/immich-charts/blob/main/charts/immich/Chart.yaml for setting up persistence for psql/redis
   - mail.yaml
   - foundry.yaml
-  - headlamp.yaml
   - home-assistant.yaml
