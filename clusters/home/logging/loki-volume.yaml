@@ -11,5 +11,5 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/loki"
+    server: 10.0.0.3
+    path: "/data/loki"
