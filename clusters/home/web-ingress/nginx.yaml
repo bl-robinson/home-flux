@@ -40,8 +40,8 @@ spec:
             secretName: public-cert
         - name: screenshots
           nfs:
-            server: 10.0.0.11 # TODO MAKE DNS?
-            path: /mnt/screenshots
+            server: 10.0.0.3 # TODO MAKE DNS?
+            path: /data/screenshots
 ---
 apiVersion: v1
 kind: Service

@@ -32,5 +32,5 @@ spec:
       volumes:
       - name: registry-data
         nfs:
-          server: 10.0.0.11 # TODO MAKE DNS?
-          path: /mnt/container-registry
+          server: 10.0.0.3 # TODO MAKE DNS?
+          path: /data/container-registry

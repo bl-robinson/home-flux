@@ -230,9 +230,9 @@ spec:
       volumes:
       - name: adguard-work
         nfs:
-          server: 10.0.0.11 # TODO: Use DNS?
-          path: /mnt/adguard/work
+          server: 10.0.0.3 # TODO: Use DNS?
+          path: /data/adguard/work
       - name: adguard-config
         nfs:
-          server: 10.0.0.11 # TODO: Use DNS?
-          path: /mnt/adguard/config
+          server: 10.0.0.3 # TODO: Use DNS?
+          path: /data/adguard/config
