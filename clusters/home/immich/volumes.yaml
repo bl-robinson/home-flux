@@ -11,8 +11,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/immich/data"
+    server: 10.0.0.3
+    path: "/data/immich/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -43,8 +43,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/immich/redis-master"
+    server: 10.0.0.3
+    path: "/data/immich/redis-master"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -75,8 +75,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/immich/postgres"
+    server: 10.0.0.3
+    path: "/data/immich/postgres"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

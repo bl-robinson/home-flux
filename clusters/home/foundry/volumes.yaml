@@ -13,8 +13,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/foundry"
+    server: 10.0.0.3
+    path: "/data/foundry"
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -29,8 +29,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/foundry-container-cache"
+    server: 10.0.0.3
+    path: "/data/foundry-container-cache"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
