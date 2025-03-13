@@ -11,8 +11,8 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs:
-    server: 10.0.0.11
-    path: "/mnt/mail"
+    server: 10.0.0.3
+    path: "/data/mail"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
