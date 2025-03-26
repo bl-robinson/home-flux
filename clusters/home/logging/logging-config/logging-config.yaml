@@ -4,6 +4,7 @@ metadata:
   name: logging
 spec:
   controlNamespace: logging
+  fluentbit: {}
   fluentd:
     disablePvc: true
 ---
@@ -19,6 +20,8 @@ metadata:
 spec:
   globalOutputRefs:
     - loki-output
+  filters:
+    - tag_normaliser: {}
   match:
     - select: {}
 ---
@@ -29,8 +32,6 @@ metadata:
 spec:
   loki:
     configure_kubernetes_labels: true
-    drop_single_key: false
-    extract_kubernetes_labels: true
     url: http://loki-gateway.logging.svc.cluster.local
     buffer:
       timekey: 1m
