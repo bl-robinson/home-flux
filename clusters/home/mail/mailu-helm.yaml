@@ -34,6 +34,33 @@ spec:
       existingSecretPasswordKey: "initial-account-password"
       mode: update
     subnet: 192.168.0.0/16
+    postfix:
+      extraContainers:
+        - name: stale-handle-checker
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[stale-handle-checker] Monitoring logs of postfix container in pod $HOSTNAME"
+              while true; do
+                if kubectl logs "$HOSTNAME" -c postfix | grep -q "stale file handle"; then
+                  echo "[stale-handle-checker] ERROR detected!"
+                  exit 1
+                fi
+                sleep 60
+              done
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+          securityContext:
+            runAsNonRoot: true
     externalRelay:
       host: "[smtp.sendgrid.net]:587"
       existingSecret: sendgrid-sec
