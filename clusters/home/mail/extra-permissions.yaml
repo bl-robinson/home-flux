@@ -1,0 +1,24 @@
+# mailu-pod-logs-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: mailu-logs-reader
+  namespace: mail
+rules:
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mailu-logs-reader-binding
+  namespace: mail
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: mail
+roleRef:
+  kind: Role
+  name: mailu-logs-reader
+  apiGroup: rbac.authorization.k8s.io
