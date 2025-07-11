@@ -11,12 +11,12 @@ kind: HelmRelease
 metadata:
   name: immich
 spec:
-  interval: 10m
-  timeout: 10m
+  interval: 20m
+  timeout: 20m
   chart:
     spec:
       chart: immich
-      version: '0.9.2'
+      version: '0.9.3'
       sourceRef:
         kind: HelmRepository
         name: immich
