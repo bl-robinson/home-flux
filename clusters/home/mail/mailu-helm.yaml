@@ -62,8 +62,8 @@ spec:
           securityContext:
             runAsNonRoot: true
     externalRelay:
-      host: "[smtp.sendgrid.net]:587"
-      existingSecret: sendgrid-sec
+      host: "[smtp.mailersend.net]:587"
+      existingSecret: relay-sec
       usernameKey: user
       passwordKey: password
     tls:
