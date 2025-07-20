@@ -26,4 +26,10 @@ spec:
             memory: "128Mi"
         ports:
           - containerPort: 53
+        volumeMounts:
+          - name: bind-cache
+            mountPath: /var/cache/bind
         imagePullPolicy: Always
+      volumes:
+        - name: bind-cache
+          emptyDir: {}
