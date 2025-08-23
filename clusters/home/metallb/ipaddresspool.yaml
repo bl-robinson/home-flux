@@ -7,12 +7,43 @@ spec:
   autoAssign: false
   addresses:
   - 10.0.0.100-10.0.0.254
-  # In order for L2Advertisement to work this must be in the same network range as the local network.
-  # Unifi configures 10.0.0.1/23 then DHCP range from 10.0.1.1-10.0.1.254
-  # Static IPs are generally assigned below 10.0.0.100 (see DNS server config)
 ---
 apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
+kind: IPAddressPool
 metadata:
-  name: example
+  name: second-pool
   namespace: metallb-system
+spec:
+  autoAssign: false
+  addresses:
+  - 2a06:61c2:27ae::2:1/128
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: unifi-gateway
+  namespace: metallb-system
+spec:
+  myASN: 65001
+  peerASN: 65000
+  peerAddress: "2a06:61c2:27ae::"
+  peerPort: 179
+  holdTime: 120s
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: ipv4-bgp
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - first-pool
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: ipv6-bgp
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - second-pool
