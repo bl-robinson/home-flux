@@ -8,16 +8,6 @@ spec:
   addresses:
   - 10.0.0.100-10.0.0.254
 ---
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: second-pool
-  namespace: metallb-system
-spec:
-  autoAssign: false
-  addresses:
-  - 2a06:61c2:27ae::2:1/128
----
 apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
@@ -39,12 +29,3 @@ metadata:
 spec:
   ipAddressPools:
   - first-pool
----
-apiVersion: metallb.io/v1beta1
-kind: BGPAdvertisement
-metadata:
-  name: ipv6-bgp
-  namespace: metallb-system
-spec:
-  ipAddressPools:
-  - second-pool
