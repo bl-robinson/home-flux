@@ -29,6 +29,9 @@ spec:
   peerAddress: 10.0.0.1
   peerPort: 179
   holdTime: 120s
+  keepaliveTime: 40s
+  # Add this to handle IPv6 advertisements over IPv4 BGP session
+  bfdProfile: ""
 ---
 apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
