@@ -24,7 +24,7 @@ metadata:
   name: adguard-v6
 spec:
   selector:
-    app.kubernetes.io/name: dns
+    app.kubernetes.io/name: adguard
   type: LoadBalancer
   ipFamilies:
     - IPv6
