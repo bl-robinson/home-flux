@@ -6,7 +6,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.0.0.101
+      metallb.universe.tf/loadBalancerIPs: 10.0.3.101
   listeners:
   - name: http
     port: 80

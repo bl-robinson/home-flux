@@ -85,7 +85,7 @@ spec:
         enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: 10.0.0.104
+        loadBalancerIP: 10.0.3.104
     redis:
       master:
         persistence:

@@ -7,7 +7,7 @@ spec:
     app.kubernetes.io/name: adguard
   type: LoadBalancer
   externalTrafficPolicy: Cluster
-  loadBalancerIP: 10.0.0.102
+  loadBalancerIP: 10.0.3.102
   ports:
     - name: udp
       protocol: UDP
