@@ -223,10 +223,10 @@ spec:
         resources:
           requests:
             cpu: "150m"
-            memory: "512Mi"
+            memory: "1G"
           limits:
-            cpu: "1" 
-            memory: "512Mi"
+            cpu: "1"
+            memory: "1G"
       volumes:
       - name: adguard-work
         nfs:
