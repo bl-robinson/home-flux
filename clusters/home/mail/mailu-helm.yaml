@@ -33,7 +33,7 @@ spec:
       existingSecret: "mailu-initial-account"
       existingSecretPasswordKey: "initial-account-password"
       mode: update
-    subnet: 192.168.0.0/16h
+    subnet: 192.168.0.0/16
     externalRelay:
       host: "[smtp.mailersend.net]:587"
       existingSecret: relay-sec
