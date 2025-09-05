@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: restart-postfix-service-account
+  namespace: mail
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: restart-postfix-role
+  namespace: mail
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: restart-postfix-rb
+  namespace: mail
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: restart-postfix-role
+subjects:
+  - kind: ServiceAccount
+    name: restart-postfix-service-account
+    namespace: mail
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restart-postfix-cronjob
+  namespace: mail
+spec:
+  schedule: "0,30 * * * *"  # Every 30minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: restart-postfix-service-account
+          restartPolicy: OnFailure
+          containers:
+          - name: kubectl
+            image: bitnami/kubectl:latest
+            command:
+            - /bin/sh
+            - -c
+            - kubectl rollout restart deployment/mailu-postfix -n mail

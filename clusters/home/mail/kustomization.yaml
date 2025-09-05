@@ -6,3 +6,4 @@ resources:
   - volume.yaml
   - mailu-helm.yaml
   - extra-permissions.yaml
+  - restarter.yaml # This is a hack until I find a better way of detecting stale file handles
