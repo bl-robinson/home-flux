@@ -3,7 +3,7 @@ kind: Gateway
 metadata:
   name: gateway-ingress
 spec:
-  gatewayClassName: cilium-custom
+  gatewayClassName: cilium
   infrastructure:
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.0.3.101
