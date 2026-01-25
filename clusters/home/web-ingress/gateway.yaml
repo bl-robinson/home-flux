@@ -3,11 +3,10 @@ kind: Gateway
 metadata:
   name: gateway-ingress
 spec:
-  gatewayClassName: cilium
+  gatewayClassName: cilium-custom
   infrastructure:
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.0.3.101
-      service.cilium.io/external-traffic-policy: Local
   listeners:
   - name: http
     port: 80
