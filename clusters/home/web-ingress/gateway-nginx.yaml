@@ -1,21 +1,53 @@
-apiVersion: v1
-kind: Service
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
 metadata:
-  name: nginx-ingress-lb
+  name: nginx-ingress
   namespace: ingress
-  annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.0.3.100
 spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Local  # Preserves source IP!
-  ports:
-  - name: http
-    port: 80
-    targetPort: 80
-    protocol: TCP
-  - name: https
-    port: 443
-    targetPort: 443
-    protocol: TCP
-  selector:
-    app.kubernetes.io/name: web
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.0.3.100
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-passthrough
+      protocol: TLS
+      port: 443
+      tls:
+        mode: Passthrough
+      allowedRoutes:
+        namespaces:
+          from: All
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-ingress-http
+  namespace: ingress
+spec:
+  parentRefs:
+    - name: nginx-ingress
+      sectionName: http
+  rules:
+    - backendRefs:
+        - name: web
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: nginx-ingress-tls
+  namespace: ingress
+spec:
+  parentRefs:
+    - name: nginx-ingress
+      sectionName: https-passthrough
+  rules:
+    - backendRefs:
+        - name: web
+          port: 443
