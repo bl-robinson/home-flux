@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailu-front-v6
+spec:
+  selector:
+    app.kubernetes.io/component: front
+    app.kubernetes.io/instance: mailu
+    app.kubernetes.io/name: mailu
+  type: LoadBalancer
+  ipFamilies:
+    - IPv6
+  ipFamilyPolicy: SingleStack
+  externalTrafficPolicy: Local
+  loadBalancerIP: "2a06:61c2:27ae:2::5"
+  ports:
+    - name: pop3s
+      protocol: TCP
+      port: 995
+      targetPort: 995
+    - name: imaps
+      protocol: TCP
+      port: 993
+      targetPort: 993
+    - name: smtp
+      protocol: TCP
+      port: 25
+      targetPort: 25
+    - name: smtps
+      protocol: TCP
+      port: 465
+      targetPort: 465
+    - name: sieve
+      protocol: TCP
+      port: 4190
+      targetPort: 4190

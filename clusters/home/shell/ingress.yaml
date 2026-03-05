@@ -13,3 +13,22 @@ spec:
       protocol: TCP
       port: 22
       targetPort: 2222
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssh-v6
+spec:
+  selector:
+    app.kubernetes.io/name: ssh
+  type: LoadBalancer
+  ipFamilies:
+    - IPv6
+  ipFamilyPolicy: SingleStack
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: "2a06:61c2:27ae:2::6"
+  ports:
+    - name: tcp
+      protocol: TCP
+      port: 22
+      targetPort: 2222
