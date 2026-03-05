@@ -1,3 +1,5 @@
+# Mailu front does not listen on IPv6 (upstream issue: https://github.com/Mailu/Mailu/issues/2293)
+# Keeping this service in place so it's ready when Mailu adds IPv6 support.
 apiVersion: v1
 kind: Service
 metadata:
