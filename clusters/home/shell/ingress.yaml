@@ -2,12 +2,17 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ssh
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.0.3.105,2a06:61c2:27ae:2::6
 spec:
   selector:
     app.kubernetes.io/name: ssh
   type: LoadBalancer
+  ipFamilyPolicy: RequireDualStack
+  ipFamilies:
+    - IPv4
+    - IPv6
   externalTrafficPolicy: Cluster
-  loadBalancerIP: 10.0.3.105
   ports:
     - name: tcp
       protocol: TCP
