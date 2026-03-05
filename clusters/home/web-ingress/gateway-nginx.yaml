@@ -7,33 +7,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.0.3.100
-  listeners:
-    - name: http
-      protocol: HTTP
-      port: 80
-      allowedRoutes:
-        namespaces:
-          from: All
-    - name: https-passthrough
-      protocol: TLS
-      port: 443
-      tls:
-        mode: Passthrough
-      allowedRoutes:
-        namespaces:
-          from: All
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: nginx-ingress-v6
-  namespace: ingress
-spec:
-  gatewayClassName: cilium
-  infrastructure:
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: "2a06:61c2:27ae:2::3"
+      metallb.universe.tf/loadBalancerIPs: 10.0.3.100,2a06:61c2:27ae:2::3
   listeners:
     - name: http
       protocol: HTTP
@@ -59,8 +33,6 @@ spec:
   parentRefs:
     - name: nginx-ingress
       sectionName: http
-    - name: nginx-ingress-v6
-      sectionName: http
   rules:
     - backendRefs:
         - name: web
@@ -74,8 +46,6 @@ metadata:
 spec:
   parentRefs:
     - name: nginx-ingress
-      sectionName: https-passthrough
-    - name: nginx-ingress-v6
       sectionName: https-passthrough
   rules:
     - backendRefs:

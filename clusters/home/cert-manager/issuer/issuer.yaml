@@ -16,13 +16,7 @@ spec:
             - name: nginx-ingress
               namespace: ingress
               kind: Gateway
-            - name: nginx-ingress-v6
-              namespace: ingress
-              kind: Gateway
             # Need the extra in order to make the local checks work
             - name: gateway-ingress
-              namespace: ingress
-              kind: Gateway
-            - name: gateway-ingress-v6
               namespace: ingress
               kind: Gateway

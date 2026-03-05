@@ -20,8 +20,6 @@ spec:
   parentRefs:
   - name: gateway-ingress
     namespace: ingress
-  - name: gateway-ingress-v6
-    namespace: ingress
   rules:
   - backendRefs:
     - name: container-registry
