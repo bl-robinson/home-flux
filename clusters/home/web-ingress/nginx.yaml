@@ -19,11 +19,7 @@ spec:
         image: container-registry.k8s.home.blrobinson.uk/docker-web:sha-1528029
         ports:
           - containerPort: 80
-          - containerPort: 443
         volumeMounts:
-          - name: public-cert
-            mountPath: /etc/cert
-            readOnly: true
           - name: screenshots
             mountPath: /var/www/vhosts/screenshots
         imagePullPolicy: Always
@@ -35,9 +31,6 @@ spec:
             cpu: "150m"
             memory: "128Mi"
       volumes:
-        - name: public-cert
-          secret:
-            secretName: public-cert
         - name: screenshots
           nfs:
             server: 10.0.0.3 # TODO MAKE DNS?
@@ -52,10 +45,6 @@ spec:
   selector:
     app.kubernetes.io/name: web
   ports:
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: 443
     - name: http
       port: 80
       protocol: TCP
