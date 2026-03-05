@@ -28,7 +28,7 @@ spec:
   alertmanagerConfiguration:
     name: alerts-config
 ---
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
   name: alerts-web
