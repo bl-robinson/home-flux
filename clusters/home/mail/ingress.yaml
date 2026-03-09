@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mail-public
+spec:
+  hostnames:
+  - mail.blrobinson.uk
+  parentRefs:
+  - name: nginx-ingress
+    namespace: ingress
+    sectionName: https
+  rules:
+  - backendRefs:
+    - name: mailu-front
+      port: 80
