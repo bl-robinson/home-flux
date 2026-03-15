@@ -91,7 +91,6 @@ spec:
       - sourceLabels:
         - __meta_kubernetes_pod_node_name
         targetLabel: instance
-    metricRelabelings:
       - targetLabel: cluster
         replacement: home
   selector:

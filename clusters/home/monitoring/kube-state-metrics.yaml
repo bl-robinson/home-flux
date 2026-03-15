@@ -245,12 +245,11 @@ spec:
       - sourceLabels:
         - exported_pod
         targetLabel: pod
-    metricRelabelings:
       - targetLabel: cluster
         replacement: home
   - interval: 15s
     port: telemetry
-    metricRelabelings:
+    relabelings:
       - targetLabel: cluster
         replacement: home
   selector:

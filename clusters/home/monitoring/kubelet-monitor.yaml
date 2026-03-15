@@ -14,7 +14,7 @@ spec:
     tlsConfig:
       insecureSkipVerify: true
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-    metricRelabelings:
+    relabelings:
       - targetLabel: cluster
         replacement: home
   - port: https-metrics
@@ -26,12 +26,11 @@ spec:
       - sourceLabels:
         - __meta_kubernetes_node_name
         targetLabel: instance
+      - targetLabel: cluster
+        replacement: home
     tlsConfig:
       insecureSkipVerify: true
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-    metricRelabelings:
-      - targetLabel: cluster
-        replacement: home
   selector:
     matchLabels:
       k8s-app: kubelet

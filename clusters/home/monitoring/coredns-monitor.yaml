@@ -8,7 +8,7 @@ spec:
   endpoints:
   - port: metrics
     interval: 15s
-    metricRelabelings:
+    relabelings:
       - targetLabel: cluster
         replacement: home
   namespaceSelector:
