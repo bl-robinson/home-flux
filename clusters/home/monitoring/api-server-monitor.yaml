@@ -13,6 +13,9 @@ spec:
       serverName: kubernetes
       caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
       insecureSkipVerify: false
+    metricRelabelings:
+      - targetLabel: cluster
+        replacement: home
   jobLabel: component
   namespaceSelector:
     matchNames:

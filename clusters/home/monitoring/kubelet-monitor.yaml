@@ -14,6 +14,9 @@ spec:
     tlsConfig:
       insecureSkipVerify: true
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    metricRelabelings:
+      - targetLabel: cluster
+        replacement: home
   - port: https-metrics
     scheme: https
     path: /metrics/cadvisor
@@ -26,6 +29,9 @@ spec:
     tlsConfig:
       insecureSkipVerify: true
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    metricRelabelings:
+      - targetLabel: cluster
+        replacement: home
   selector:
     matchLabels:
       k8s-app: kubelet

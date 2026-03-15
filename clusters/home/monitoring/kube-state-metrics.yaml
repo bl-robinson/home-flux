@@ -245,8 +245,14 @@ spec:
       - sourceLabels:
         - exported_pod
         targetLabel: pod
+    metricRelabelings:
+      - targetLabel: cluster
+        replacement: home
   - interval: 15s
     port: telemetry
+    metricRelabelings:
+      - targetLabel: cluster
+        replacement: home
   selector:
     matchLabels:
       app.kubernetes.io/name: kube-state-metrics
