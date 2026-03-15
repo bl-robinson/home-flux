@@ -10,5 +10,6 @@ resources:
   - kube-state-metrics.yaml
   - kubelet-monitor.yaml
   - api-server-monitor.yaml
+  - coredns-monitor.yaml
   - alarms.yaml
   - alert-manager.yaml
