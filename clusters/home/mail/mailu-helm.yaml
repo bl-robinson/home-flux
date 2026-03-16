@@ -68,6 +68,9 @@ spec:
         claimNameOverride: ""
     rspamd:
       enabled: true
+    postfix:
+      updateStrategy:
+        type: Recreate
     clamav:
       enabled: false
     webmail:
