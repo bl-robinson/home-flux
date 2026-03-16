@@ -76,11 +76,11 @@ spec:
     machine-learning:
       resources:
         limits:
-          cpu: 512m
-          memory: 512Mi
+          cpu: 2
+          memory: 4096Mi
         requests:
           cpu: 512m
-          memory: 512Mi
+          memory: 2048Mi
   releaseName: immich
   install:
     remediation:
