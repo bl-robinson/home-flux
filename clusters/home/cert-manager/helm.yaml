@@ -16,12 +16,14 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: '1.18.0'
+      version: '1.20.0'
       sourceRef:
         kind: HelmRepository
         name: cert-manager
   values:
-    installCRDs: true
+    crds:
+      enabled: true
+      keep: true
     config:
       enableGatewayAPI: true
     prometheus:
