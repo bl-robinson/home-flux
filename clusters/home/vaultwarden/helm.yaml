@@ -1,0 +1,43 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: vaultwarden
+spec:
+  interval: 5m0s
+  url: https://guerzon.github.io/vaultwarden
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vaultwarden
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: vaultwarden
+      version: '0.35.1'
+      sourceRef:
+        kind: HelmRepository
+        name: vaultwarden
+  values:
+    resourceType: "Deployment"
+    strategy:
+      type: Recreate
+    domain: "https://vaultwarden.k8s.home.blrobinson.uk"
+    ingress:
+      enabled: false
+    storage:
+      existingVolumeClaim:
+        claimName: "vaultwarden-pvc"
+    adminToken:
+      existingSecret: "vaultwarden-admin-token"
+      existingSecretKey: "admin-token"
+    signupsAllowed: false
+  releaseName: vaultwarden
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3

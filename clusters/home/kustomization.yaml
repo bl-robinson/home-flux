@@ -13,3 +13,4 @@ resources:
   - mail.yaml
   - foundry.yaml
   - home-assistant.yaml
+  - vaultwarden.yaml

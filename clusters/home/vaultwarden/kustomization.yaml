@@ -1,0 +1,7 @@
+namespace: vaultwarden
+
+resources:
+  - namespace.yaml
+  - volume.yaml
+  - helm.yaml
+  - ingress.yaml
