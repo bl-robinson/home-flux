@@ -4,4 +4,5 @@ resources:
   - gateway-nginx.yaml
   - nginx.yaml
   - gateway.yaml
+  - gateway-endpointslices.yaml
   - deploy-access.yaml

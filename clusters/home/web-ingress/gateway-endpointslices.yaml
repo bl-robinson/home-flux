@@ -1,0 +1,83 @@
+# Cilium Gateway API creates LoadBalancer Services without a selector or
+# EndpointSlices. It relies on eBPF to redirect traffic from the VIP to
+# its local envoy proxy. This works for traffic originating inside the
+# cluster but means MetalLB never sees ready endpoints and therefore
+# refuses to advertise the VIP via BGP.
+#
+# These static EndpointSlices give MetalLB the endpoints it needs to
+# advertise the gateway IPs. The addresses point to the worker nodes
+# where cilium-envoy runs as a DaemonSet — once traffic arrives at any
+# node, Cilium's eBPF redirects it to the local envoy instance.
+#
+# If worker nodes are added or removed, update the endpoints here.
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: cilium-gateway-gateway-ingress-static
+  labels:
+    kubernetes.io/service-name: cilium-gateway-gateway-ingress
+addressType: IPv4
+ports:
+  - name: port-80
+    port: 80
+    protocol: TCP
+  - name: port-443
+    port: 443
+    protocol: TCP
+endpoints:
+  - addresses:
+      - 10.0.0.21
+    conditions:
+      ready: true
+    nodeName: k8s-worker-1
+  - addresses:
+      - 10.0.0.22
+    conditions:
+      ready: true
+    nodeName: k8s-worker-2
+  - addresses:
+      - 10.0.0.23
+    conditions:
+      ready: true
+    nodeName: k8s-worker-3
+  - addresses:
+      - 10.0.0.24
+    conditions:
+      ready: true
+    nodeName: k8s-worker-4
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: cilium-gateway-nginx-ingress-static
+  labels:
+    kubernetes.io/service-name: cilium-gateway-nginx-ingress
+addressType: IPv4
+ports:
+  - name: port-80
+    port: 80
+    protocol: TCP
+  - name: port-443
+    port: 443
+    protocol: TCP
+endpoints:
+  - addresses:
+      - 10.0.0.21
+    conditions:
+      ready: true
+    nodeName: k8s-worker-1
+  - addresses:
+      - 10.0.0.22
+    conditions:
+      ready: true
+    nodeName: k8s-worker-2
+  - addresses:
+      - 10.0.0.23
+    conditions:
+      ready: true
+    nodeName: k8s-worker-3
+  - addresses:
+      - 10.0.0.24
+    conditions:
+      ready: true
+    nodeName: k8s-worker-4
