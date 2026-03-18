@@ -27,7 +27,7 @@ spec:
             - name: POSTGRES_DB
               value: immich
             - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+              value: /var/lib/postgresql/data/data
           ports:
             - containerPort: 5432
           resources:
