@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: dns
-        image: container-registry.k8s.home.blrobinson.uk/docker-dns:sha-686b078
+        image: container-registry.k8s.home.blrobinson.uk/docker-dns:sha-177418d
         resources:
           requests:
             cpu: "150m"
