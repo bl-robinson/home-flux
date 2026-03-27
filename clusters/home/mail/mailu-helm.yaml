@@ -52,6 +52,7 @@ spec:
     ingress:
       enabled: false
       existingSecret: mail-cert
+      tlsFlavorOverride: mail
     front:
       hostPort:
         enabled: false
