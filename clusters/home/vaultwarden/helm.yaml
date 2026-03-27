@@ -34,6 +34,17 @@ spec:
       existingSecret: "vaultwarden-admin-token"
       existingSecretKey: "admin-token"
     signupsAllowed: false
+    smtp:
+      existingSecret: "vaultwarden-smtp"
+      host: "mail.blrobinson.uk"
+      security: "starttls"
+      port: 587
+      from: "vaultwarden@blrobinson.uk"
+      fromName: "Vaultwarden"
+      username:
+        existingSecretKey: "username"
+      password:
+        existingSecretKey: "password"
   releaseName: vaultwarden
   install:
     remediation:
