@@ -36,11 +36,12 @@ spec:
     signupsAllowed: false
     smtp:
       existingSecret: "vaultwarden-smtp"
-      host: "mail.blrobinson.uk"
-      security: "starttls"
-      port: 587
+      host: "10.0.3.104"
+      security: "force_tls"
+      port: 465
       from: "vaultwarden@blrobinson.uk"
       fromName: "Vaultwarden"
+      acceptInvalidHostnames: "true"
       username:
         existingSecretKey: "username"
       password:
