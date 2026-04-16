@@ -1,0 +1,7 @@
+namespace: llm-tools
+
+resources:
+  - namespace.yaml
+  - open-webui-volumes.yaml
+  - open-webui-helm.yaml
+  - open-webui-ingress.yaml

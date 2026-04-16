@@ -14,3 +14,4 @@ resources:
   - foundry.yaml
   - home-assistant.yaml
   - vaultwarden.yaml
+  - llm-tools.yaml
