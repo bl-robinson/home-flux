@@ -6,7 +6,7 @@ spec:
   hostnames:
   - open-webui.k8s.home.blrobinson.uk
   parentRefs:
-  - name: nginx-ingress
+  - name: gateway-ingress
     namespace: ingress
     sectionName: https
   rules:
