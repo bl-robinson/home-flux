@@ -15,3 +15,4 @@ resources:
   - home-assistant.yaml
   - vaultwarden.yaml
   - llm-tools.yaml
+  - hubble.yaml

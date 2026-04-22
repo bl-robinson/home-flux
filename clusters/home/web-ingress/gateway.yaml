@@ -42,3 +42,4 @@ spec:
   - alertmanager.k8s.home.blrobinson.uk
   - vaultwarden.k8s.home.blrobinson.uk
   - open-webui.k8s.home.blrobinson.uk
+  - hubble.k8s.home.blrobinson.uk
