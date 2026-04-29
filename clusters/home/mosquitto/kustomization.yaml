@@ -1,0 +1,7 @@
+namespace: mosquitto
+
+resources:
+  - namespace.yaml
+  - volume.yaml
+  - helm.yaml
+  - ingress.yaml

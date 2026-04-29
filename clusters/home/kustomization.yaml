@@ -16,3 +16,4 @@ resources:
   - vaultwarden.yaml
   - llm-tools.yaml
   - hubble.yaml
+  - mosquitto.yaml
