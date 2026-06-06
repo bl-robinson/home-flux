@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: ssh
-        image: lscr.io/linuxserver/openssh-server:version-9.7_p1-r4
+        image: lscr.io/linuxserver/openssh-server:version-10.2_p1-r0-ls226
         ports:
         - containerPort: 2222
         env:
