@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-assistant-coiot
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.0.3.107
+spec:
+  selector:
+    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/instance: home-assistant
+  type: LoadBalancer
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
+  # Preserve the Shelly's source IP and avoid an extra hop; only the node
+  # running the HA pod advertises this IP over BGP.
+  externalTrafficPolicy: Local
+  ports:
+    - name: coiot
+      protocol: UDP
+      port: 5683
+      targetPort: 5683

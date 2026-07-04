@@ -5,4 +5,5 @@ resources:
   - volume.yaml
   - helm.yaml
   - ingress.yaml
+  - coiot.yaml
 
