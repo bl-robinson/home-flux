@@ -1,0 +1,7 @@
+namespace: audiobookshelf
+
+resources:
+  - namespace.yaml
+  - volumes.yaml
+  - deployment.yaml
+  - ingress.yaml

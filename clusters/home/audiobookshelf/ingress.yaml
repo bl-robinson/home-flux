@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: audiobookshelf-public
+spec:
+  hostnames:
+  - audiobooks.blrobinson.uk
+  parentRefs:
+  - name: nginx-ingress
+    namespace: ingress
+    sectionName: https
+  rules:
+  - backendRefs:
+    - name: audiobookshelf
+      port: 80

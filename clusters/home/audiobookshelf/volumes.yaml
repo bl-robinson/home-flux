@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: audiobookshelf-config-volume
+  labels:
+    volume: audiobookshelf-config-volume
+spec:
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.3
+    path: "/data/audiobookshelf/config"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-config-pvc
+spec:
+  resources:
+    requests:
+      storage: 2Gi
+  volumeMode: Filesystem
+  volumeName: audiobookshelf-config-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: audiobookshelf-config-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: audiobookshelf-metadata-volume
+  labels:
+    volume: audiobookshelf-metadata-volume
+spec:
+  capacity:
+    storage: 20Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.3
+    path: "/data/audiobookshelf/metadata"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-metadata-pvc
+spec:
+  resources:
+    requests:
+      storage: 20Gi
+  volumeMode: Filesystem
+  volumeName: audiobookshelf-metadata-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: audiobookshelf-metadata-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: audiobookshelf-audiobooks-volume
+  labels:
+    volume: audiobookshelf-audiobooks-volume
+spec:
+  capacity:
+    storage: 500Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.3
+    path: "/data/audiobookshelf/audiobooks"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-audiobooks-pvc
+spec:
+  resources:
+    requests:
+      storage: 500Gi
+  volumeMode: Filesystem
+  volumeName: audiobookshelf-audiobooks-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: audiobookshelf-audiobooks-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: audiobookshelf-podcasts-volume
+  labels:
+    volume: audiobookshelf-podcasts-volume
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.3
+    path: "/data/audiobookshelf/podcasts"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-podcasts-pvc
+spec:
+  resources:
+    requests:
+      storage: 100Gi
+  volumeMode: Filesystem
+  volumeName: audiobookshelf-podcasts-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: audiobookshelf-podcasts-volume
