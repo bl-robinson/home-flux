@@ -32,6 +32,11 @@ metadata:
   name: nginx-ingress-http
   namespace: ingress
 spec:
+  hostnames:
+    - shed-cam.blrobinson.uk
+    - grabs.blrobinson.uk
+    - mail.blrobinson.uk
+    - unifi.blrobinson.uk
   parentRefs:
     - name: nginx-ingress
       sectionName: http
@@ -46,6 +51,11 @@ metadata:
   name: nginx-ingress-https
   namespace: ingress
 spec:
+  hostnames:
+    - shed-cam.blrobinson.uk
+    - grabs.blrobinson.uk
+    - mail.blrobinson.uk
+    - unifi.blrobinson.uk
   parentRefs:
     - name: nginx-ingress
       sectionName: https
