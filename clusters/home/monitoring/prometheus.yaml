@@ -35,6 +35,7 @@ spec:
             requests:
               storage: 10Gi
   serviceAccountName: prometheus
+  enableRemoteWriteReceiver: true
   version: v2.53.5
   serviceMonitorSelector: {}
 ---
