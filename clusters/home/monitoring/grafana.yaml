@@ -81,13 +81,11 @@ spec:
           url: https://raw.githubusercontent.com/prometheus-community/windows_exporter/master/contrib/dashboard/windows-exporter-dashboard.json
           token: ''
         nvidia_gpu_metrics:
-          nvidia-gpu-metrics:
-            url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/charts/nvidia-gpu-exporter/dashboards/nvidia-gpu-metrics.json
-            token: ''
+          url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/charts/nvidia-gpu-exporter/dashboards/nvidia-gpu-metrics.json
+          token: ''
         nvidia_gpu_overview:
-          nvidia-gpu-overview:
-            url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/docs/grafana/dashboard-overview.json
-            token: ''
+          url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/docs/grafana/dashboard-overview.json
+          token: ''
   releaseName: grafana
   install:
     remediation:
