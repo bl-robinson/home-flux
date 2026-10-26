@@ -68,6 +68,10 @@ spec:
         k8s-views-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
+        nvidia_gpu_metrics:
+          nvidia-gpu-metrics:
+            url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/docs/grafana/nvidia-gpu-metrics.json
+            token: ''
   releaseName: grafana
   install:
     remediation:
