@@ -48,6 +48,14 @@ spec:
           editable: true
           options:
             path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+        - name: 'grafana-dashboards-windows'
+          orgId: 1
+          folder: 'Windows'
+          type: file
+          disableDeletion: true
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/windows
     dashboards:
       grafana-dashboards-kubernetes:
         k8s-system-api-server:
@@ -68,9 +76,17 @@ spec:
         k8s-views-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           token: ''
+      grafana-dashboards-windows:
+        windows-exporter:
+          url: https://raw.githubusercontent.com/prometheus-community/windows_exporter/master/contrib/dashboard/windows-exporter-dashboard.json
+          token: ''
         nvidia_gpu_metrics:
           nvidia-gpu-metrics:
-            url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/docs/grafana/nvidia-gpu-metrics.json
+            url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/charts/nvidia-gpu-exporter/dashboards/nvidia-gpu-metrics.json
+            token: ''
+        nvidia_gpu_overview:
+          nvidia-gpu-overview:
+            url: https://raw.githubusercontent.com/utkuozdemir/nvidia_gpu_exporter/main/docs/grafana/dashboard-overview.json
             token: ''
   releaseName: grafana
   install:
