@@ -8,10 +8,10 @@ spec:
     disablePvc: true
     resources:
       limits:
-        memory: 512M
+        memory: 1Gi
       requests:
         cpu: 200m
-        memory: 512M
+        memory: 1Gi
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: FluentbitAgent
@@ -42,3 +42,7 @@ spec:
       timekey: 1m
       timekey_wait: 30s
       timekey_use_utc: true
+      # File buffer defaults to 256MB chunks, which OOM fluentd when a backlog flushes
+      chunk_limit_size: 8MB
+      total_limit_size: 2GB
+      overflow_action: drop_oldest_chunk
