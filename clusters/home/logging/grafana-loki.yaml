@@ -35,6 +35,10 @@ spec:
       rulerConfig:
         storage:
           type: local
+        limits_config:
+          max_cache_freshness_per_query: 15m
+          tail_max_duration: 24h
+          ingestion_rate_mb: 5
     singleBinary:
       replicas: 1
       persistence:
