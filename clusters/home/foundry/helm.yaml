@@ -19,7 +19,7 @@ spec:
   chart:
     spec:
       chart: foundry-vtt
-      version: '14.369.0'
+      version: '12.343.0'
       sourceRef:
         kind: HelmRepository
         name: foundry-vtt
@@ -34,15 +34,13 @@ spec:
     service:
       serviceType: ClusterIP
     image:
-      tag: "14.369.0"
+      tag: "12.331.0"
     container:
-      version: "14.369.0"
+      version: "12.331.0"
       cache: "/data/Data/container_cache"
       preserveConfig: true
-      uid: 421
-      gid: 421
     foundryvtt:
-      version: "14.369"
+      version: "12.331"
       hostname: "foundry.blrobinson.uk"
     persistence:
       storageClass: default
