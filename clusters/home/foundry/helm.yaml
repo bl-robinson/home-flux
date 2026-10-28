@@ -39,6 +39,8 @@ spec:
       version: "14.369.0"
       cache: "/data/Data/container_cache"
       preserveConfig: true
+      uid: 421
+      gid: 421
     foundryvtt:
       version: "14.369"
       hostname: "foundry.blrobinson.uk"
