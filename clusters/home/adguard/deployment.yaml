@@ -201,7 +201,7 @@ spec:
     spec:
       containers:
       - name: adguard
-        image: adguard/adguardhome:latest
+        image: adguard/adguardhome:v0.107.79
         # env:
         # - name: AGH_CONFIG
         #   valueFrom:
