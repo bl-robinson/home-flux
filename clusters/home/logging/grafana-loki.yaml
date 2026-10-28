@@ -5,7 +5,9 @@ metadata:
   namespace: logging
 spec:
   interval: 5m0s
-  url: https://grafana.github.io/helm-charts
+  # loki chart 20.x (Loki 3.7.x) is only published in the grafana-community
+  # helm-charts repo; Flux will now pull loki from this repo instead.
+  url: https://grafana-community.github.io/helm-charts
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -18,7 +20,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: '5.10.0'
+      version: '20.0.2'
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -30,8 +32,17 @@ spec:
         replication_factor: 1
       storage:
         type: filesystem
-      commonStorageConfig:
-        type: filesystem
+      # chart 20.x requires a schema_config; this is what 5.10.0 rendered by
+      # default, so existing boltdb-shipper indexes keep resolving
+      schemaConfig:
+        configs:
+          - from: "2022-01-11"
+            store: boltdb-shipper
+            object_store: filesystem
+            schema: v12
+            index:
+              prefix: loki_index_
+              period: 24h
       rulerConfig:
         storage:
           type: local
@@ -48,10 +59,29 @@ spec:
           matchLabels:
             volume: loki
         size: 5Gi
-    table_manager:
-      retention_deletes_enabled: true
-      retention_period: 24h
-      releaseName: grafana-loki
+    # chart 20.x ships these enabled by default; the 5.10.0 release was
+    # configured without them, so they are disabled to keep the current
+    # workload footprint (enable individually if wanted)
+    sidecar:
+      rules:
+        enabled: false
+    lokiCanary:
+      enabled: false
+    # chart 20.x requires the Loki canary when Helm tests run
+    test:
+      enabled: false
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
+    # chart 20.x defaults these to 3; zeroed so singleBinary + filesystem
+    # storage passes the chart's deploymentMode validation
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
   install:
     remediation:
       retries: 3
