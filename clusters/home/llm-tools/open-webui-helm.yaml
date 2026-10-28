@@ -22,10 +22,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: open-webui
-      version: 17.0.0
   values:
-    image:
-      tag: v0.12.0
     ollama:
       enabled: false
     pipelines:
