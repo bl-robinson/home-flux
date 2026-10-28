@@ -14,11 +14,12 @@ metadata:
   namespace: llm-tools
 spec:
   interval: 10m
-  timeout: 5m
+  timeout: 15m
   releaseName: open-webui
   chart:
     spec:
       chart: open-webui
+      version: 17.1.0
       sourceRef:
         kind: HelmRepository
         name: open-webui
@@ -42,6 +43,8 @@ spec:
   install:
     remediation:
       retries: 3
+  # No rollback on failed upgrade: Open WebUI migrates its DB on startup and
+  # can't run against a newer schema, so rolling back guarantees a crash loop.
   upgrade:
     remediation:
-      retries: 3
+      retries: 0
