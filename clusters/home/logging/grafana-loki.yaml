@@ -32,23 +32,15 @@ spec:
         replication_factor: 1
       storage:
         type: filesystem
-      # chart 20.x requires a schema_config. The first period covers all data
-      # written before 2026-10-29 and stays in place so old boltdb-shipper
-      # indexes keep resolving. From 2026-10-29 (00:00 UTC, already past)
-      # new data is indexed in tsdb, which makes the tsdb/v13 period the
-      # active one immediately. Accepted trade-off (homelab, discussed):
-      # any logs written between 2026-10-29 00:00 UTC and this upgrade were
-      # indexed under the old period and stop resolving once this applies.
+      # chart 20.x requires a schema_config. The store was wiped on
+      # 2026-10-29 and started fresh on tsdb/v13 only; the old boltdb-shipper
+      # period was dropped (it shared the loki_index_ prefix, so on the
+      # switchover day both stores wrote into the same daily table and tsdb
+      # failed to load it). Add a new period with a future `from` date if
+      # the schema ever changes again; never edit this one in place.
       schemaConfig:
         configs:
-          - from: "2022-01-11"
-            store: boltdb-shipper
-            object_store: filesystem
-            schema: v12
-            index:
-              prefix: loki_index_
-              period: 24h
-          - from: "2026-10-29"
+          - from: "2026-10-01"
             store: tsdb
             object_store: filesystem
             schema: v13
@@ -62,10 +54,8 @@ spec:
         storage:
           type: local
       limits_config:
-        # allow_structured_metadata is intentionally not set (Loki 3.x
-        # defaults to true): the active schema period is now tsdb/v13, so
-        # Loki's startup validation accepts it. The temporary `false`
-        # override added for the 2.8 → 3.7 upgrade is no longer needed.
+        # allow_structured_metadata is left at the Loki 3.x default (true),
+        # which requires a tsdb/v13 schema - satisfied by the only period.
         max_cache_freshness_per_query: 15m
         ingestion_rate_mb: 5
         # fluentd's loki plugin sends service/pod/container/host/pod_id/
