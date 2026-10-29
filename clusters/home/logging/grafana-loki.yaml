@@ -47,6 +47,10 @@ spec:
         storage:
           type: local
       limits_config:
+        # Loki 3.x enables structured metadata by default, which rejects a
+        # schema below v13 that doesn't use a tsdb index; we are still on the
+        # v12/boltdb-shipper schema until that index is migrated.
+        allow_structured_metadata: false
         max_cache_freshness_per_query: 15m
         ingestion_rate_mb: 5
       querier:
