@@ -23,8 +23,8 @@ spec:
   holdTime: 120s
   keepaliveTime: 40s
 ---
-apiVersion: metallb.io/v1beta2
-kind: Policy
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
 metadata:
   name: bgp
   namespace: metallb-system
