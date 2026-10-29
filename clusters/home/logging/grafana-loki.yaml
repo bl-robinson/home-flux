@@ -68,6 +68,11 @@ spec:
         # override added for the 2.8 → 3.7 upgrade is no longer needed.
         max_cache_freshness_per_query: 15m
         ingestion_rate_mb: 5
+        # fluentd's loki plugin sends service/pod/container/host/pod_id/
+        # container_id plus every kubernetes label, so heavily-labelled pods
+        # (19+ names, e.g. the gha runners) exceed Loki's default limit of
+        # 15 and are rejected with 400 on push; raise it so all streams land.
+        max_label_names: 32
       querier:
         tail_max_duration: 24h
     singleBinary:
