@@ -17,6 +17,12 @@ apiVersion: logging.banzaicloud.io/v1beta1
 kind: FluentbitAgent
 metadata:
   name: logging-agent
+spec:
+  # run on the control-plane node too, so etcd/kube-apiserver/etc. logs ship
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
 ---
 apiVersion: logging.banzaicloud.io/v1beta1
 kind: ClusterFlow
