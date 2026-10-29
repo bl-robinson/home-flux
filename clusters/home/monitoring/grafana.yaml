@@ -33,7 +33,7 @@ spec:
           editable: false
         - name: loki
           type: loki
-          url: http://loki-gateway.logging.svc.cluster.local
+          url: http://logging-loki-gateway.logging.svc.cluster.local
           editable: false
     # Provision grafana-dashboards-kubernetes
     dashboardProviders:
