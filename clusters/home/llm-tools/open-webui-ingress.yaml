@@ -13,3 +13,9 @@ spec:
   - backendRefs:
     - name: open-webui
       port: 80
+    # Envoy defaults a route timeout to 15s, which RSTs any LLM stream
+    # that runs longer (the "Connection lost: ECONNRESET" failures).
+    # 3600s matches OWUI's AIOHTTP_CLIENT_TIMEOUT and gives long
+    # generations room while still bounding genuinely stuck streams.
+    timeouts:
+      request: 3600s
