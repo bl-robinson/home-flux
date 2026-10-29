@@ -52,6 +52,12 @@ spec:
             store: tsdb
             object_store: filesystem
             schema: v13
+            # required: Loki 3.x rejects a tsdb period without a periodic
+            # index config (startup: "tsdb must always have periodic config
+            # for index set to 24h")
+            index:
+              prefix: loki_index_
+              period: 24h
       rulerConfig:
         storage:
           type: local
