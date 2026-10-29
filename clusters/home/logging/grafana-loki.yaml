@@ -33,11 +33,12 @@ spec:
       storage:
         type: filesystem
       # chart 20.x requires a schema_config. The first period covers all data
-      # written before 2026-11-02 and stays in place so old boltdb-shipper
-      # indexes keep resolving. From 2026-11-02 (00:00 UTC) new data is
-      # indexed in tsdb — a future "from" date is required: Loki starts
-      # writing tsdb index files on that date with no data conversion, and
-      # queries spanning the boundary are stitched together automatically.
+      # written before 2026-10-29 and stays in place so old boltdb-shipper
+      # indexes keep resolving. From 2026-10-29 (00:00 UTC, already past)
+      # new data is indexed in tsdb, which makes the tsdb/v13 period the
+      # active one immediately. Accepted trade-off (homelab, discussed):
+      # any logs written between 2026-10-29 00:00 UTC and this upgrade were
+      # indexed under the old period and stop resolving once this applies.
       schemaConfig:
         configs:
           - from: "2022-01-11"
@@ -47,7 +48,7 @@ spec:
             index:
               prefix: loki_index_
               period: 24h
-          - from: "2026-11-02"
+          - from: "2026-10-29"
             store: tsdb
             object_store: filesystem
             schema: v13
@@ -55,12 +56,10 @@ spec:
         storage:
           type: local
       limits_config:
-        # Loki 3.x enables structured metadata by default, which rejects a
-        # schema below v13 that doesn't use a tsdb index. The active schema
-        # period is still v12/boltdb-shipper until 2026-11-02, so this must
-        # stay false until that date passes — then a follow-up PR removing
-        # this line re-enables structured metadata and native OTLP.
-        allow_structured_metadata: false
+        # allow_structured_metadata is intentionally not set (Loki 3.x
+        # defaults to true): the active schema period is now tsdb/v13, so
+        # Loki's startup validation accepts it. The temporary `false`
+        # override added for the 2.8 → 3.7 upgrade is no longer needed.
         max_cache_freshness_per_query: 15m
         ingestion_rate_mb: 5
       querier:
