@@ -75,6 +75,30 @@ spec:
         max_label_names: 32
       querier:
         tail_max_duration: 24h
+      # Full memberlist section (setting memberlistConfig replaces the
+      # chart's embedded one, so join_members is repeated explicitly).
+      # chart 20.x defaults abort_if_cluster_join_fails: true, and the
+      # seed service only resolves DNS once the pod is ready, while /ready
+      # needs the ring to settle first - a chicken-and-egg that made every
+      # bounce crashloop and Flux abort + auto-roll-back the upgrade (all
+      # remediation attempts consumed). With a single replica a join
+      # failure must be tolerated, not fatal.
+      memberlistConfig:
+        abort_if_cluster_join_fails: false
+        advertise_port: 7946
+        bind_port: 7946
+        join_members:
+          - logging-loki-memberlist.logging.svc.cluster.local
+        max_join_backoff: 1m
+        max_join_retries: 10
+        min_join_backoff: 1s
+        rejoin_interval: 90s
+    memberlist:
+      service:
+        # keep the seed service resolvable while the pod is not ready;
+        # otherwise the join above has no address to look up (NXDOMAIN or
+        # a stale endpoint) and readiness can never settle
+        publishNotReadyAddresses: true
     singleBinary:
       replicas: 1
       persistence:
