@@ -72,7 +72,10 @@ spec:
         # container_id plus every kubernetes label, so heavily-labelled pods
         # (19+ names, e.g. the gha runners) exceed Loki's default limit of
         # 15 and are rejected with 400 on push; raise it so all streams land.
-        max_label_names: 32
+        # Loki 3.x renamed this key: per-limit is now
+        # `max_label_names_per_series` (the older `max_label_names` no longer
+        # parses in 3.7.x - setting it makes Loki exit 1 on config load).
+        max_label_names_per_series: 32
       querier:
         tail_max_duration: 24h
       # Full memberlist section (setting memberlistConfig replaces the
