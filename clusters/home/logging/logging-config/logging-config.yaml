@@ -46,3 +46,7 @@ spec:
       chunk_limit_size: 8MB
       total_limit_size: 2GB
       overflow_action: drop_oldest_chunk
+      # timekey 1m makes ~20 small chunks/min; a single flush thread only
+      # pushes about that many, so any backlog after a Loki outage never
+      # drains. Parallel flushes let it catch up.
+      flush_thread_count: 8
