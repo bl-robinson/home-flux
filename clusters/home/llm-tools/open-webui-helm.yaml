@@ -24,6 +24,17 @@ spec:
         kind: HelmRepository
         name: open-webui
   values:
+    extraEnvVars:
+      # OWUI's aiohttp upstream client defaults to a 300s "total" timeout
+      # (AIOHTTP_CLIENT_TIMEOUT, env.py), which aborts any LLM generation
+      # running longer than 5 minutes (e.g. large-context prompts). The
+      # failure surfaces to the OpenCode client as an ECONNRESET /
+      # "Connection lost while reading the response" mid-stream.
+      # Raise so generations longer than 5 minutes can complete end-to-end.
+      # The stream idle timeout (AIOHTTP_CLIENT_STREAM_IDLE_TIMEOUT) is
+      # already None by default, so no idle-limiting change is needed.
+      - name: AIOHTTP_CLIENT_TIMEOUT
+        value: "3600"
     ollama:
       enabled: false
     pipelines:
