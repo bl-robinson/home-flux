@@ -3,4 +3,10 @@ namespace: metallb-system
 resources:
   - github.com/metallb/metallb/config/frr?ref=v0.16.1
   - ipaddresspool.yaml
+
+patches:
+  - path: patch-speaker.yaml
+    target:
+      kind: DaemonSet
+      name: speaker
   

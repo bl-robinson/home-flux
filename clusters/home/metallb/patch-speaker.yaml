@@ -1,0 +1,39 @@
+# Hardening for the speaker DaemonSet (log review #5, 2026-10-30).
+#
+# 1. The upstream chart declares frr-lib/frr-tmp emptyDir volumes but never
+#    mounts them, while the frr container runs with readOnlyRootFilesystem:
+#    true — so /var/lib/frr and /var/tmp/frr sit on the read-only root fs and
+#    every start logs "failed to mkdir /var/lib/frr: Read-only file system"
+#    ("crashlog buffering unavailable"). Mount the already-declared volumes.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: speaker
+  namespace: metallb-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: frr
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: 9121
+              scheme: HTTPS
+            periodSeconds: 5
+            successThreshold: 1
+            # Was timeoutSeconds: 1 (API default), failureThreshold: 3. A brief
+            # node-level stall (k8s-control has ~150MB free disk and periodic
+            # iowait spikes) made the probe miss and killed a healthy frr
+            # (12x SIGTERM/42h). Allow up to 5s per probe, 6 misses before kill.
+            failureThreshold: 6
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: frr-sockets
+              mountPath: /var/run/frr
+            - name: frr-conf
+              mountPath: /etc/frr
+            - name: frr-lib
+              mountPath: /var/lib/frr
+            - name: frr-tmp
+              mountPath: /var/tmp/frr
