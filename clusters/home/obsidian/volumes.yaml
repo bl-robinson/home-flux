@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: obsidian-couchdb-volume
+  labels:
+    volume: obsidian-couchdb-volume
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.3
+    path: "/data/obsidian/couchdb"
+---
+# Name matches the StatefulSet's volumeClaimTemplate (<template>-<statefulset>-<ordinal>)
+# so the chart adopts this pre-bound claim instead of dynamically provisioning one.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-storage-obsidian-couchdb-0
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+  volumeName: obsidian-couchdb-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: obsidian-couchdb-volume

@@ -1,0 +1,7 @@
+namespace: obsidian
+
+resources:
+  - namespace.yaml
+  - volumes.yaml
+  - helm.yaml
+  - ingress.yaml

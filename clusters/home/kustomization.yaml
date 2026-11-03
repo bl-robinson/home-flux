@@ -17,3 +17,4 @@ resources:
   - hubble.yaml
   - mosquitto.yaml
   - audiobookshelf.yaml
+  - obsidian.yaml
