@@ -31,3 +31,35 @@ spec:
   selector:
     matchLabels:
       volume: obsidian-couchdb-volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: obsidian-web-config-volume
+  labels:
+    volume: obsidian-web-config-volume
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  nfs:
+    server: 10.0.0.3
+    path: "/data/obsidian/web-config"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: obsidian-web-config-pvc
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+  volumeName: obsidian-web-config-volume
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      volume: obsidian-web-config-volume

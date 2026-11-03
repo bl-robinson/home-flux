@@ -1,0 +1,93 @@
+# Desktop Obsidian streamed to the browser (linuxserver Selkies image).
+# Acts as just another LiveSync device. Protected by the image's built-in basic auth;
+# hardening below removes the root terminal/sudo and unauthenticated share links.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: obsidian-web
+  labels:
+    app.kubernetes.io/name: obsidian-web
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: obsidian-web
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: obsidian-web
+    spec:
+      containers:
+        - name: obsidian
+          image: lscr.io/linuxserver/obsidian:v1.14.5-ls151
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Europe/London
+            # Built-in HTTP basic auth (credentials bootstrapped by Terraform)
+            - name: CUSTOM_USER
+              valueFrom:
+                secretKeyRef:
+                  name: obsidian-web-auth
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: obsidian-web-auth
+                  key: password
+            # Hardening for public exposure, see https://docs.linuxserver.io/selkies/user-guide/security/
+            - name: HARDEN_DESKTOP          # disables sudo, terminals, xdg-open, file transfers, printing
+              value: "true"
+            - name: SELKIES_ENABLE_SHARING  # share/player links carry no auth of their own
+              value: "false"
+            - name: SELKIES_ALLOWED_ORIGINS
+              value: https://obsidian.blrobinson.uk
+            - name: NO_GAMEPAD
+              value: "true"
+            - name: NO_WEBCAM
+              value: "true"
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+            limits:
+              cpu: 2
+              memory: 3072Mi   # includes the 1Gi in-memory /dev/shm
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: shm
+              mountPath: /dev/shm
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: obsidian-web-config-pvc
+        - name: shm   # equivalent of docker --shm-size=1gb, needed by Electron
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: obsidian-web
+spec:
+  selector:
+    app.kubernetes.io/name: obsidian-web
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000

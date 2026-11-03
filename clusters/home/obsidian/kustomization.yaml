@@ -4,4 +4,5 @@ resources:
   - namespace.yaml
   - volumes.yaml
   - helm.yaml
+  - web.yaml
   - ingress.yaml
