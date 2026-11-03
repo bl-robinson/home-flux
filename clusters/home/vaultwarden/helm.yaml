@@ -24,7 +24,7 @@ spec:
     resourceType: "Deployment"
     strategy:
       type: Recreate
-    domain: "https://vaultwarden.k8s.home.blrobinson.uk"
+    domain: "https://vaultwarden.blrobinson.uk"
     ingress:
       enabled: false
     storage:

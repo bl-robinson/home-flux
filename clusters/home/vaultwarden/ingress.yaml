@@ -4,9 +4,9 @@ metadata:
   name: vaultwarden
 spec:
   hostnames:
-  - vaultwarden.k8s.home.blrobinson.uk
+  - vaultwarden.blrobinson.uk
   parentRefs:
-  - name: gateway-ingress
+  - name: nginx-ingress
     namespace: ingress
     sectionName: https
   rules:

@@ -47,7 +47,7 @@ This creates the `vaultwarden` namespace and `vaultwarden-admin-token` secret.
 
 ### 4. DNS
 
-Ensure `vaultwarden.k8s.home.blrobinson.uk` resolves to `10.0.3.101` (gateway-ingress LB IP).
+Ensure `vaultwarden.blrobinson.uk` resolves to the public web ingress (nginx-ingress gateway, `10.0.3.100` internally). The certificate is in `public-cert` in `web-ingress/nginx.yaml`.
 
 ## Deployment
 
@@ -55,5 +55,5 @@ Push this branch to trigger Flux reconciliation. Flux will deploy the HelmReleas
 
 ## Access
 
-- **Web vault:** https://vaultwarden.k8s.home.blrobinson.uk
-- **Admin panel:** https://vaultwarden.k8s.home.blrobinson.uk/admin
+- **Web vault:** https://vaultwarden.blrobinson.uk
+- **Admin panel:** https://vaultwarden.blrobinson.uk/admin
