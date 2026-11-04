@@ -21,7 +21,7 @@ spec:
         kind: HelmRepository
         name: couchdb
   values:
-    fullnameOverride: obsidian   # -> StatefulSet obsidian-couchdb, Service obsidian-svc-couchdb
+    fullnameOverride: obsidian-sam   # -> StatefulSet obsidian-sam-couchdb, Service obsidian-sam-svc-couchdb
     clusterSize: 1
 
     # Credentials are bootstrapped by Terraform (terraform-k8s-cluster-bootstrap/obsidian.tf)
@@ -59,7 +59,7 @@ spec:
     # https://github.com/vrtmrz/obsidian-livesync/blob/main/docs/setup_own_server.md
     couchdbConfig:
       couchdb:
-        uuid: 84593e452ab641efb2093f315838fce5   # must stay stable for the life of the data
+        uuid: 4dc94f57a4eb4e33a810f487e71ba960   # must stay stable for the life of the data
         single_node: true
         max_document_size: 50000000
       chttpd:

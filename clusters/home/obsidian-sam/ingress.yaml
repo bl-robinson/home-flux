@@ -11,6 +11,6 @@ spec:
     sectionName: https
   rules:
   - backendRefs:
-    - name: obsidian-svc-couchdb
+    - name: obsidian-sam-svc-couchdb
       port: 5984
 
