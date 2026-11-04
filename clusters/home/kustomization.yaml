@@ -18,3 +18,4 @@ resources:
   - mosquitto.yaml
   - audiobookshelf.yaml
   - obsidian.yaml
+  - obsidian-sam.yaml
