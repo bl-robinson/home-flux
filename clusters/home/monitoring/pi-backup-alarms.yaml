@@ -19,10 +19,21 @@ spec:
         summary: "{{ $labels.instance }}: node_exporter unreachable for 5 minutes (Pi down, or VPN/network broken)"
 
     - alert: ZfsReplicationStale
-      expr: time() - zfs_backup_newest_snapshot_timestamp_seconds{job="pi-nodes", dataset="data/data"} > 5400
+      # zrep snapshots only: sanoid's hourly snapshots on data would otherwise hide a stalled zrep.
+      expr: time() - zfs_backup_newest_snapshot_by_kind_timestamp_seconds{job="pi-nodes", dataset="data/data", kind="zrep"} > 5400
       for: 10m
       annotations:
-        summary: "{{ $labels.instance }}: newest snapshot of {{ $labels.dataset }} is {{ $value | humanizeDuration }} old (zrep runs every 30m)"
+        summary: "{{ $labels.instance }}: newest zrep snapshot of {{ $labels.dataset }} is {{ $value | humanizeDuration }} old (zrep runs every 30m)"
+
+    - alert: ZfsDailySnapshotStale
+      # sanoid takes a daily on data; zrep carries it to backup. Fires if either stops.
+      expr: |
+        time() - zfs_backup_newest_snapshot_by_kind_timestamp_seconds{job="pi-nodes", dataset="data/data", kind="daily"} > 26 * 3600
+        or absent(zfs_backup_newest_snapshot_by_kind_timestamp_seconds{job="pi-nodes", instance="data", dataset="data/data", kind="daily"})
+        or absent(zfs_backup_newest_snapshot_by_kind_timestamp_seconds{job="pi-nodes", instance="backup", dataset="data/data", kind="daily"})
+      for: 2h
+      annotations:
+        summary: "{{ $labels.instance }}: no daily sanoid snapshot of data/data in the last 26h (sanoid on data stopped, or not reaching backup)"
 
     - alert: ZfsPoolNotOnline
       expr: node_zfs_zpool_state{job="pi-nodes", state!="online"} == 1
