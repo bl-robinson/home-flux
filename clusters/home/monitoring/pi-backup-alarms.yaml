@@ -1,0 +1,137 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: prometheus
+    role: alerts
+  name: pi-backup
+  namespace: monitoring
+spec:
+  groups:
+  # Metrics are pushed by Alloy on the data/backup Pis (ansible: playbooks/alloy.yml).
+  - name: pi-backup.rules
+    rules:
+    - alert: PiHostSilent
+      expr: |
+        absent_over_time(up{job="pi-nodes", instance="data"}[15m])
+        or absent_over_time(up{job="pi-nodes", instance="backup"}[15m])
+      annotations:
+        summary: "{{ $labels.instance }} has sent no metrics for 15 minutes (down, or VPN/network broken)"
+
+    - alert: ZfsReplicationStale
+      expr: time() - zfs_backup_newest_snapshot_timestamp_seconds{job="pi-nodes", dataset="data/data"} > 5400
+      for: 10m
+      annotations:
+        summary: "{{ $labels.instance }}: newest snapshot of {{ $labels.dataset }} is {{ $value | humanizeDuration }} old (zrep runs every 30m)"
+
+    - alert: ZfsPoolNotOnline
+      expr: node_zfs_zpool_state{job="pi-nodes", state!="online"} == 1
+      for: 2m
+      annotations:
+        summary: "{{ $labels.instance }}: pool {{ $labels.zpool }} is {{ $labels.state }}"
+
+    - alert: ZfsDeviceErrors
+      expr: zfs_pool_device_errors{job="pi-nodes"} > 0
+      annotations:
+        summary: "{{ $labels.instance }}: pool {{ $labels.pool }} has {{ $value }} {{ $labels.type }} errors"
+
+    - alert: ZfsDataErrors
+      expr: zfs_pool_data_errors{job="pi-nodes"} > 0
+      annotations:
+        summary: "{{ $labels.instance }}: pool {{ $labels.pool }} has {{ $value }} permanent data errors"
+
+    - alert: ZfsScrubFoundErrors
+      expr: zfs_pool_scrub_errors{job="pi-nodes"} > 0
+      annotations:
+        summary: "{{ $labels.instance }}: last scrub of {{ $labels.pool }} found {{ $value }} errors"
+
+    - alert: ZfsScrubOverdue
+      expr: time() - zfs_pool_scrub_last_end_timestamp_seconds{job="pi-nodes"} > 40 * 86400
+      for: 1h
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.pool }} not scrubbed for {{ $value | humanizeDuration }}"
+
+    - alert: ZfsPoolFilling
+      expr: zfs_pool_capacity_ratio{job="pi-nodes"} > 0.8
+      for: 1h
+      annotations:
+        summary: "{{ $labels.instance }}: pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full"
+
+    # --- SMART: early warnings before a drive fails outright ---
+    - alert: SmartUnhealthy
+      expr: smart_device_healthy{job="pi-nodes"} == 0
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) failed its SMART overall health check - replace it"
+
+    - alert: SmartAttributeNearThreshold
+      expr: |
+        (smart_attribute_value{job="pi-nodes"} - smart_attribute_threshold{job="pi-nodes"}) < 10
+        and smart_attribute_threshold{job="pi-nodes"} > 0
+      for: 1h
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} attribute {{ $labels.name }} is within {{ $value }} of its failure threshold"
+
+    - alert: SsdWearHigh
+      expr: smart_device_percentage_used{job="pi-nodes"} >= 80
+      for: 1h
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) has used {{ $value }}% of its rated endurance"
+
+    - alert: SsdWearOutWithinYear
+      expr: predict_linear(smart_device_percentage_used{job="pi-nodes"}[30d], 365 * 86400) >= 100
+      for: 1d
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) on course to reach 100% wear within a year"
+
+    - alert: SmartMediaErrorsIncreasing
+      # 5 reallocated, 171 program fail, 172 erase fail, 187 reported uncorrectable,
+      # 196 reallocation events, 198 offline uncorrectable
+      expr: delta(smart_attribute_raw{job="pi-nodes", id=~"5|171|172|187|196|198"}[1d]) > 0
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} {{ $labels.name }} rose by {{ $value }} in the last day"
+
+    - alert: SmartPendingSectors
+      # MX500s are known to flip 197 to 1 briefly, so require it to persist.
+      expr: smart_attribute_raw{job="pi-nodes", id="197"} > 0
+      for: 6h
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} has {{ $value }} pending (unreadable) sectors"
+
+    - alert: SmartCrcErrorsIncreasing
+      expr: delta(smart_attribute_raw{job="pi-nodes", id="199"}[1d]) > 0
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} SATA link CRC errors rising - check the cable/HAT, not the drive"
+
+    - alert: SmartSelfTestFailed
+      expr: smart_selftest_errors{job="pi-nodes"} > 0
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) has {{ $value }} failed SMART self-tests"
+
+    - alert: SmartSelfTestsNotRunning
+      expr: smart_selftest_count{job="pi-nodes"} == 0
+      for: 3d
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} has no SMART self-tests logged - is smartd's schedule working?"
+
+    - alert: SsdTemperatureHigh
+      expr: smart_device_temperature_celsius{job="pi-nodes"} > 60
+      for: 15m
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} is at {{ $value }}C"
+
+    - alert: ZfsMetricsCollectorBroken
+      expr: |
+        time() - zfs_backup_metrics_last_run_timestamp_seconds{job="pi-nodes"} > 1800
+        or zfs_backup_metrics_section_ok{job="pi-nodes"} == 0
+      for: 30m
+      annotations:
+        summary: "{{ $labels.instance }}: zfs-backup-metrics collector not running or failing {{ $labels.section }}"
+
+    - alert: PiRootDiskFilling
+      expr: |
+        node_filesystem_avail_bytes{job="pi-nodes", mountpoint="/"}
+          / node_filesystem_size_bytes{job="pi-nodes", mountpoint="/"} < 0.15
+      for: 1h
+      annotations:
+        summary: "{{ $labels.instance }}: SD card root filesystem has {{ $value | humanizePercentage }} free"
+

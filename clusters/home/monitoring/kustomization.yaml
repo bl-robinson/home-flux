@@ -12,4 +12,5 @@ resources:
   - api-server-monitor.yaml
   - coredns-monitor.yaml
   - alarms.yaml
+  - pi-backup-alarms.yaml
   - alert-manager.yaml
