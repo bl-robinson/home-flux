@@ -53,10 +53,20 @@ spec:
       rulerConfig:
         storage:
           type: local
+      # Retention is applied by the compactor (the single-binary pod runs
+      # it). Without this, Loki keeps logs forever and the 10Gi NFS volume
+      # eventually fills. delete_request_store is mandatory once
+      # retention_enabled is true.
+      compactor:
+        retention_enabled: true
+        delete_request_store: filesystem
+        retention_delete_delay: 2h
       limits_config:
         # allow_structured_metadata is left at the Loki 3.x default (true),
         # which requires a tsdb/v13 schema - satisfied by the only period.
         max_cache_freshness_per_query: 15m
+        # global log retention (31 days), enforced by the compactor above
+        retention_period: 744h
         ingestion_rate_mb: 5
         # fluentd's loki plugin sends service/pod/container/host/pod_id/
         # container_id plus every kubernetes label, so heavily-labelled pods

@@ -14,6 +14,11 @@ spec:
   nodeSelector:
     kubernetes.io/os: linux
   replicas: 3
+  # Without these the operator defaults to 24h retention. Keep 30 days, but
+  # cap on size (whichever hits first) to leave WAL/compaction headroom on
+  # the 10Gi NFS PV each replica has.
+  retention: 30d
+  retentionSize: 8GB
   resources:
     requests:
       memory: 400Mi
