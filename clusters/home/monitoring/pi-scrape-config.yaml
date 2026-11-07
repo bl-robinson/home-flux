@@ -1,0 +1,35 @@
+# Prometheus pulls metrics from the data/backup Pis (ansible: playbooks/pi_metrics.yml).
+# Every replica scrapes every target, so each holds a complete copy.
+# backup is at a remote house and is reached over WireGuard (10.0.2.4).
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: pi-nodes
+  namespace: monitoring
+spec:
+  jobName: pi-nodes
+  scrapeInterval: 30s
+  staticConfigs:
+  - targets: ["10.0.0.3:9100"]
+    labels:
+      instance: data
+  - targets: ["10.0.2.4:9100"]
+    labels:
+      instance: backup
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: pi-smartctl
+  namespace: monitoring
+spec:
+  jobName: smartctl
+  # smartctl_exporter refreshes its data every 120s; scraping faster gains nothing.
+  scrapeInterval: 60s
+  staticConfigs:
+  - targets: ["10.0.0.3:9633"]
+    labels:
+      instance: data
+  - targets: ["10.0.2.4:9633"]
+    labels:
+      instance: backup

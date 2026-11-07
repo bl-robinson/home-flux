@@ -13,4 +13,5 @@ resources:
   - coredns-monitor.yaml
   - alarms.yaml
   - pi-backup-alarms.yaml
+  - pi-scrape-config.yaml
   - alert-manager.yaml

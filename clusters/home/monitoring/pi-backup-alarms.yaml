@@ -8,15 +8,15 @@ metadata:
   namespace: monitoring
 spec:
   groups:
-  # Metrics are pushed by Alloy on the data/backup Pis (ansible: playbooks/alloy.yml).
+  # Metrics are scraped from the data/backup Pis (ansible: playbooks/pi_metrics.yml; home-flux: pi-scrape-config.yaml).
   - name: pi-backup.rules
     rules:
-    - alert: PiHostSilent
-      expr: |
-        absent_over_time(up{job="pi-nodes", instance="data"}[15m])
-        or absent_over_time(up{job="pi-nodes", instance="backup"}[15m])
+    - alert: PiHostDown
+      # Prometheus scrapes the Pis directly, so a dead Pi or broken VPN shows as up == 0.
+      expr: up{job="pi-nodes"} == 0
+      for: 5m
       annotations:
-        summary: "{{ $labels.instance }} has sent no metrics for 15 minutes (down, or VPN/network broken)"
+        summary: "{{ $labels.instance }}: node_exporter unreachable for 5 minutes (Pi down, or VPN/network broken)"
 
     - alert: ZfsReplicationStale
       expr: time() - zfs_backup_newest_snapshot_timestamp_seconds{job="pi-nodes", dataset="data/data"} > 5400
@@ -57,64 +57,88 @@ spec:
       annotations:
         summary: "{{ $labels.instance }}: pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full"
 
-    # --- SMART: early warnings before a drive fails outright ---
-    - alert: SmartUnhealthy
-      expr: smart_device_healthy{job="pi-nodes"} == 0
+    # --- SMART (smartctl_exporter, job="smartctl"): early warnings before a drive fails ---
+    - alert: SmartctlExporterDown
+      expr: up{job="smartctl"} == 0
+      for: 15m
       annotations:
-        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) failed its SMART overall health check - replace it"
+        summary: "{{ $labels.instance }}: smartctl_exporter is not responding - no SMART data"
+
+    - alert: SmartDeviceMissing
+      # Both Pis have two SATA SSDs; one vanishing usually means a dead drive or HAT/cable fault.
+      expr: count by (instance) (smartctl_device{job="smartctl"}) < 2
+      for: 15m
+      annotations:
+        summary: "{{ $labels.instance }}: only {{ $value }} SMART device(s) visible, expected 2"
+
+    - alert: SmartctlReadFailing
+      # smartctl exit-status bits 0-1: command line / device open failed.
+      expr: smartctl_device_smartctl_exit_status{job="smartctl"} % 4 != 0
+      for: 30m
+      annotations:
+        summary: "{{ $labels.instance }}: smartctl cannot read {{ $labels.device }} (exit status {{ $value }})"
+
+    - alert: SmartUnhealthy
+      expr: smartctl_device_smart_status{job="smartctl"} == 0
+      annotations:
+        summary: "{{ $labels.instance }}: {{ $labels.device }} failed its SMART overall health check - replace it"
 
     - alert: SmartAttributeNearThreshold
       expr: |
-        (smart_attribute_value{job="pi-nodes"} - smart_attribute_threshold{job="pi-nodes"}) < 10
-        and smart_attribute_threshold{job="pi-nodes"} > 0
+        (
+          smartctl_device_attribute{job="smartctl", attribute_value_type="value"}
+          - ignoring(attribute_value_type) smartctl_device_attribute{job="smartctl", attribute_value_type="thresh"}
+        ) < 10
+        and ignoring(attribute_value_type)
+        smartctl_device_attribute{job="smartctl", attribute_value_type="thresh"} > 0
       for: 1h
       annotations:
-        summary: "{{ $labels.instance }}: {{ $labels.device }} attribute {{ $labels.name }} is within {{ $value }} of its failure threshold"
+        summary: "{{ $labels.instance }}: {{ $labels.device }} {{ $labels.attribute_name }} is within {{ $value }} of its failure threshold"
 
     - alert: SsdWearHigh
-      expr: smart_device_percentage_used{job="pi-nodes"} >= 80
+      expr: smartctl_device_statistics{job="smartctl", statistic_name="Percentage Used Endurance Indicator"} >= 80
       for: 1h
       annotations:
-        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) has used {{ $value }}% of its rated endurance"
+        summary: "{{ $labels.instance }}: {{ $labels.device }} has used {{ $value }}% of its rated endurance"
 
     - alert: SsdWearOutWithinYear
-      expr: predict_linear(smart_device_percentage_used{job="pi-nodes"}[30d], 365 * 86400) >= 100
+      expr: predict_linear(smartctl_device_statistics{job="smartctl", statistic_name="Percentage Used Endurance Indicator"}[30d], 365 * 86400) >= 100
       for: 1d
       annotations:
-        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) on course to reach 100% wear within a year"
+        summary: "{{ $labels.instance }}: {{ $labels.device }} on course to reach 100% wear within a year"
 
     - alert: SmartMediaErrorsIncreasing
       # 5 reallocated, 171 program fail, 172 erase fail, 187 reported uncorrectable,
       # 196 reallocation events, 198 offline uncorrectable
-      expr: delta(smart_attribute_raw{job="pi-nodes", id=~"5|171|172|187|196|198"}[1d]) > 0
+      expr: delta(smartctl_device_attribute{job="smartctl", attribute_value_type="raw", attribute_id=~"5|171|172|187|196|198"}[1d]) > 0
       annotations:
-        summary: "{{ $labels.instance }}: {{ $labels.device }} {{ $labels.name }} rose by {{ $value }} in the last day"
+        summary: "{{ $labels.instance }}: {{ $labels.device }} {{ $labels.attribute_name }} rose by {{ $value }} in the last day"
 
     - alert: SmartPendingSectors
       # MX500s are known to flip 197 to 1 briefly, so require it to persist.
-      expr: smart_attribute_raw{job="pi-nodes", id="197"} > 0
+      expr: smartctl_device_attribute{job="smartctl", attribute_value_type="raw", attribute_id="197"} > 0
       for: 6h
       annotations:
         summary: "{{ $labels.instance }}: {{ $labels.device }} has {{ $value }} pending (unreadable) sectors"
 
     - alert: SmartCrcErrorsIncreasing
-      expr: delta(smart_attribute_raw{job="pi-nodes", id="199"}[1d]) > 0
+      expr: delta(smartctl_device_attribute{job="smartctl", attribute_value_type="raw", attribute_id="199"}[1d]) > 0
       annotations:
         summary: "{{ $labels.instance }}: {{ $labels.device }} SATA link CRC errors rising - check the cable/HAT, not the drive"
 
     - alert: SmartSelfTestFailed
-      expr: smart_selftest_errors{job="pi-nodes"} > 0
+      expr: smartctl_device_self_test_log_error_count{job="smartctl"} > 0
       annotations:
-        summary: "{{ $labels.instance }}: {{ $labels.device }} ({{ $labels.model }}) has {{ $value }} failed SMART self-tests"
+        summary: "{{ $labels.instance }}: {{ $labels.device }} has {{ $value }} failed SMART self-tests"
 
     - alert: SmartSelfTestsNotRunning
-      expr: smart_selftest_count{job="pi-nodes"} == 0
+      expr: smartctl_device_self_test_log_count{job="smartctl"} == 0
       for: 3d
       annotations:
         summary: "{{ $labels.instance }}: {{ $labels.device }} has no SMART self-tests logged - is smartd's schedule working?"
 
     - alert: SsdTemperatureHigh
-      expr: smart_device_temperature_celsius{job="pi-nodes"} > 60
+      expr: smartctl_device_temperature{job="smartctl", temperature_type="current"} > 60
       for: 15m
       annotations:
         summary: "{{ $labels.instance }}: {{ $labels.device }} is at {{ $value }}C"

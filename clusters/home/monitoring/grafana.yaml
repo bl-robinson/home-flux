@@ -56,7 +56,33 @@ spec:
           editable: true
           options:
             path: /var/lib/grafana/dashboards/windows
+        - name: 'grafana-dashboards-pi'
+          orgId: 1
+          folder: 'Raspberry Pis'
+          type: file
+          disableDeletion: true
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/pi
     dashboards:
+      # data/backup Pis: Alloy node metrics (job=pi-nodes) + smartctl_exporter (job=smartctl)
+      grafana-dashboards-pi:
+        node-exporter-full:
+          # Has its own datasource picker variable, so no substitution needed.
+          gnetId: 1860
+          revision: 46
+        zfs-overview:
+          gnetId: 24987
+          revision: 12
+          datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+        smartctl-exporter:
+          gnetId: 22604
+          revision: 4
+          datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
       grafana-dashboards-kubernetes:
         k8s-system-api-server:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
