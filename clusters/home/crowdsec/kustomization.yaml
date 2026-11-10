@@ -1,0 +1,6 @@
+namespace: crowdsec
+
+resources:
+  - namespace.yaml
+  - volume.yaml
+  - helm.yaml

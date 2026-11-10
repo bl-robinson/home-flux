@@ -1,0 +1,203 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: crowdsec
+spec:
+  interval: 5m0s
+  url: https://crowdsecurity.github.io/helm-charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: crowdsec
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: crowdsec
+      version: '0.24.3'
+      sourceRef:
+        kind: HelmRepository
+        name: crowdsec
+  values:
+    container_runtime: containerd
+
+    lapi:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 200Mi
+        limits:
+          cpu: 500m
+          memory: 500Mi
+      persistentVolume:
+        data:
+          enabled: true
+          existingClaim: crowdsec-lapi-data-pvc
+        config:
+          enabled: true
+          existingClaim: crowdsec-lapi-config-pvc
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+
+    agent:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 150Mi
+        limits:
+          cpu: 500m
+          memory: 250Mi
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+      env:
+        - name: PARSERS
+          value: "crowdsecurity/cri-logs"
+        - name: COLLECTIONS
+          value: >-
+            crowdsecurity/nginx
+            crowdsecurity/base-http-scenarios
+            crowdsecurity/http-cve
+            crowdsecurity/whitelist-good-actors
+            crowdsecurity/postfix
+            crowdsecurity/dovecot
+            crowdsecurity/home-assistant
+            Dominic-Wagner/vaultwarden
+            plague-doctor/audiobookshelf
+            gauth-fr/immich
+            aidalinfo/couchdb
+            LePresidente/adguardhome
+      acquisition:
+        - namespace: ingress
+          podName: web-*
+          program: nginx
+        - namespace: mail
+          podName: mailu-front-*
+          program: nginx
+        - namespace: vaultwarden
+          podName: vaultwarden-*
+          program: vaultwarden
+        - namespace: home-assistant
+          podName: home-assistant-*
+          program: home-assistant
+        - namespace: immich
+          podName: immich-server-*
+          program: immich
+        - namespace: audiobookshelf
+          podName: audiobookshelf-*
+          program: audiobookshelf
+        - namespace: adguard
+          podName: adguard-*
+          program: adguardhome
+        - namespace: obsidian
+          podName: obsidian-web-*
+          program: nginx
+        - namespace: obsidian
+          podName: obsidian-couchdb-*
+          program: couchdb
+        - namespace: obsidian-sam
+          podName: obsidian-sam-couchdb-*
+          program: couchdb
+      additionalAcquisition:
+        - source: file
+          filenames:
+            - /var/log/containers/mailu-postfix-*_mail_*.log
+          force_inotify: true
+          labels:
+            type: cri-syslog
+
+    config:
+      parsers:
+        s00-raw:
+          local-cri-syslog.yaml: |
+            name: local/cri-syslog
+            description: "CRI container log whose payload is a syslog line (Mailu postfix)"
+            filter: "evt.Line.Labels.type == 'cri-syslog'"
+            onsuccess: next_stage
+            nodes:
+              - grok:
+                  pattern: '^%{TIMESTAMP_ISO8601:cri_timestamp} %{WORD:stream} %{WORD:logtag} %{SYSLOGTIMESTAMP:timestamp} %{SYSLOGHOST:logsource} %{SYSLOGPROG}: %{GREEDYDATA:message}'
+                  apply_on: Line.Raw
+            statics:
+              - target: evt.StrTime
+                expression: evt.Parsed.cri_timestamp
+              - meta: datasource_path
+                expression: evt.Line.Src
+              - meta: datasource_type
+                expression: evt.Line.Module
+        s01-parse:
+          local-mailu-dovecot-logs.yaml: |
+            name: local/mailu-dovecot-logs
+            description: "Mailu front dovecot proxy login lines (imap/pop3/submission); Hub parser lacks rport="
+            filter: "evt.Parsed.program == 'nginx' && evt.Parsed.message contains '-login: '"
+            onsuccess: next_stage
+            nodes:
+              - grok:
+                  pattern: '%{WORD:protocol}-login: %{DATA:dovecot_login_message}: user=<%{DATA:dovecot_user}>.*, rip=%{IP:dovecot_remote_ip}, rport=%{INT}, lip=%{IP:dovecot_local_ip}'
+                  apply_on: message
+            statics:
+              - meta: log_type
+                value: dovecot_logs
+              - meta: service
+                value: dovecot
+              - meta: source_ip
+                expression: evt.Parsed.dovecot_remote_ip
+              - meta: dovecot_login_result
+                expression: "any(['Authentication failure', 'Password mismatch', 'password mismatch', 'auth failed', 'unknown user'], {evt.Parsed.dovecot_login_message contains #}) ? 'auth_failed' : ''"
+          local-home-assistant-logs.yaml: |
+            name: local/home-assistant-logs
+            description: "Hub crowdsecurity/home-assistant-logs plus the +00:00 timestamp offset HA 2026.x writes"
+            filter: "evt.Parsed.program == 'home-assistant'"
+            onsuccess: next_stage
+            pattern_syntax:
+              HA_TIMESTAMP: '%{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}(%{ISO8601_TIMEZONE})?'
+            nodes:
+              - grok:
+                  pattern: "%{HA_TIMESTAMP} WARNING \\(%{DATA:threadName}\\) \\[homeassistant.components.http.ban\\] Login attempt or request with invalid authentication from %{DATA:source_rdns} \\(%{IPORHOST:source_ip}\\). Requested URL: '%{GREEDYDATA:url}'. \\(%{GREEDYDATA:http_user_agent}\\)"
+                  apply_on: message
+              - grok:
+                  pattern: "%{HA_TIMESTAMP} WARNING \\(%{DATA:threadName}\\) \\[homeassistant.components.http.ban\\] Login attempt or request with invalid authentication from %{DATA:source_rdns} \\(%{IPORHOST:source_ip}\\). \\(%{GREEDYDATA:http_user_agent}\\)"
+                  apply_on: message
+            statics:
+              - meta: log_type
+                value: home-assistant_failed_auth
+              - meta: service
+                value: http
+              - meta: source_ip
+                expression: evt.Parsed.source_ip
+              - meta: source_rdns
+                expression: evt.Parsed.source_rdns
+          local-adguardhome-logs.yaml: |
+            name: local/adguardhome-logs
+            description: "AdGuard Home v0.107.7x failed web login (format the Hub parser predates)"
+            filter: "evt.Parsed.program == 'adguardhome'"
+            onsuccess: next_stage
+            nodes:
+              - grok:
+                  pattern: 'webapi: http error host=%{NOTSPACE} method=POST url=/control/login status=403 ip=%{IP:source_ip} err="invalid username or password"'
+                  apply_on: message
+            statics:
+              - meta: log_type
+                value: adguardhome_failed_auth
+              - meta: service
+                value: adguardhome
+              - meta: source_ip
+                expression: evt.Parsed.source_ip
+        s02-enrich:
+          local-home-whitelist.yaml: |
+            name: local/home-whitelist
+            description: "Never act on home LAN, cluster or loopback addresses"
+            whitelist:
+              reason: "home and cluster networks"
+              cidr:
+                - "10.0.0.0/8"
+                - "172.16.0.0/12"
+                - "192.168.0.0/16"
+                - "2a06:61c2:27ae::/48"
+                - "127.0.0.0/8"
+                - "::1/128"
