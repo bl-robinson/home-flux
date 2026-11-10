@@ -43,6 +43,7 @@ spec:
   enableRemoteWriteReceiver: true
   version: v3.13.5
   serviceMonitorSelector: {}
+  serviceMonitorNamespaceSelector: {}
   # Pick up ScrapeConfigs in this namespace (pi-scrape-config.yaml: data/backup Pis).
   scrapeConfigSelector: {}
 ---
