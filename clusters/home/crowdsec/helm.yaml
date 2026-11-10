@@ -76,38 +76,49 @@ spec:
         - namespace: ingress
           podName: web-*
           program: nginx
+          poll_without_inotify: true
         - namespace: mail
           podName: mailu-front-*
           program: nginx
+          poll_without_inotify: true
         - namespace: vaultwarden
           podName: vaultwarden-*
           program: vaultwarden
+          poll_without_inotify: true
         - namespace: home-assistant
           podName: home-assistant-*
           program: home-assistant
+          poll_without_inotify: true
         - namespace: immich
           podName: immich-server-*
           program: immich
+          poll_without_inotify: true
         - namespace: audiobookshelf
           podName: audiobookshelf-*
           program: audiobookshelf
+          poll_without_inotify: true
         - namespace: adguard
           podName: adguard-*
           program: adguardhome
+          poll_without_inotify: true
         - namespace: obsidian
           podName: obsidian-web-*
           program: nginx
+          poll_without_inotify: true
         - namespace: obsidian
           podName: obsidian-couchdb-*
           program: couchdb
+          poll_without_inotify: true
         - namespace: obsidian-sam
           podName: obsidian-sam-couchdb-*
           program: couchdb
+          poll_without_inotify: true
       additionalAcquisition:
         - source: file
           filenames:
             - /var/log/containers/mailu-postfix-*_mail_*.log
           force_inotify: true
+          poll_without_inotify: true
           labels:
             type: cri-syslog
 
