@@ -53,6 +53,12 @@ spec:
       enabled: false
       existingSecret: mail-cert
       tlsFlavorOverride: mail
+      # Real client IP for web/admin/SSO. Without REAL_IP_FROM, nginx ignores
+      # REAL_IP_HEADER, so every login looks like it's from Cilium's Envoy (shared
+      # auth rate-limit bucket per node). Trust only the Envoy / pod pools; Mailu
+      # turns on real_ip_recursive, so it takes the rightmost untrusted entry.
+      realIpHeader: X-Forwarded-For
+      realIpFrom: "192.168.0.0/16,2a06:61c2:27ae::2:0/112"
     front:
       hostPort:
         enabled: false

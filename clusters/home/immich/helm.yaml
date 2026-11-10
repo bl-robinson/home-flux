@@ -34,6 +34,9 @@ spec:
               DB_USERNAME: immich
               DB_PASSWORD: immich
               DB_DATABASE_NAME: immich
+              # Real client IP: trust only Cilium's Envoy addresses (pod pools). The default
+              # also trusts the 10/8 LAN and not the IPv6 pod pool.
+              IMMICH_TRUSTED_PROXIES: "192.168.0.0/16,2a06:61c2:27ae::2:0/112"
     immich:
       metrics:
         enabled: true
