@@ -10,6 +10,21 @@ spec:
     namespace: ingress
     sectionName: https
   rules:
-  - backendRefs:
+  - filters:
+    # Pin the real client IP: overwrite whatever the client sent (Envoy expands the %...% variable).
+    # CF-Connecting-IP / True-Client-IP are removed because AdGuard trusts them ahead of X-Real-IP.
+    - type: RequestHeaderModifier
+      requestHeaderModifier:
+        set:
+        - name: X-Forwarded-For
+          value: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
+        - name: X-Real-IP
+          value: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
+        - name: X-Client-IP
+          value: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
+        remove:
+        - CF-Connecting-IP
+        - True-Client-IP
+    backendRefs:
     - name: audiobookshelf
       port: 80

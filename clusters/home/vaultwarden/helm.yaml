@@ -34,6 +34,17 @@ spec:
       existingSecret: "vaultwarden-admin-token"
       existingSecretKey: "admin-token"
     signupsAllowed: false
+    # Real client IP behind Cilium Gateway (Envoy appends the client to X-Forwarded-For).
+    # Vaultwarden >= 1.37.4 walks XFF right-to-left, skipping trusted proxies, so it
+    # can't be spoofed. The old X-Real-IP default was taken verbatim from the client.
+    ipHeader: "X-Forwarded-For"
+    # Include the TZ offset; the CrowdSec Dominic-Wagner/vaultwarden parser expects it
+    logTimestampFormat: "%Y-%m-%d %H:%M:%S.%3f%z"
+    image:
+      extraVars:
+        # Only Cilium's per-node Envoy addresses (pod pools) are trusted proxies
+        - key: IP_HEADER_TRUSTED_PROXIES
+          value: "192.168.0.0/16,2a06:61c2:27ae::2:0/112"
     smtp:
       existingSecret: "vaultwarden-smtp"
       host: "10.0.3.104"

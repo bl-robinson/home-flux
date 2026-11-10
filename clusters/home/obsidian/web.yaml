@@ -71,7 +71,14 @@ spec:
               mountPath: /config
             - name: shm
               mountPath: /dev/shm
+            - name: custom-init
+              mountPath: /custom-cont-init.d
+              readOnly: true
       volumes:
+        - name: custom-init
+          configMap:
+            name: obsidian-web-custom-init
+            defaultMode: 0755
         - name: config
           persistentVolumeClaim:
             claimName: obsidian-web-config-pvc
@@ -91,3 +98,26 @@ spec:
     - name: http
       port: 3000
       targetPort: 3000
+---
+# Runs at container start (linuxserver custom-cont-init.d). The image's internal nginx
+# does the basic auth, but by default it sees Cilium's Envoy IP and logs to files.
+# This makes it log the real client IP (rightmost untrusted X-Forwarded-For) to
+# stdout/stderr so CrowdSec's nginx parser can pick up failed basic-auth attempts.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: obsidian-web-custom-init
+data:
+  10-realip.sh: |
+    #!/bin/bash
+    # http-context include (/etc/nginx/conf.d/*.conf is included by nginx.conf)
+    cat > /etc/nginx/conf.d/realip.conf <<'CONF'
+    # Cilium per-node Envoy / pod pools
+    set_real_ip_from 192.168.0.0/16;
+    set_real_ip_from 2a06:61c2:27ae::2:0/112;
+    real_ip_header X-Forwarded-For;
+    real_ip_recursive on;
+    CONF
+    ln -sf /dev/stdout /var/log/nginx/access.log
+    ln -sf /dev/stderr /var/log/nginx/error.log
+    echo "**** realip + stdout logging configured for nginx ****"
