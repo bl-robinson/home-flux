@@ -19,3 +19,4 @@ resources:
   - audiobookshelf.yaml
   - obsidian.yaml
   - obsidian-sam.yaml
+  - crowdsec.yaml
