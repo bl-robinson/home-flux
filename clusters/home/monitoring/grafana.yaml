@@ -64,7 +64,36 @@ spec:
           editable: true
           options:
             path: /var/lib/grafana/dashboards/pi
+        - name: 'grafana-dashboards-crowdsec'
+          orgId: 1
+          folder: 'CrowdSec'
+          type: file
+          disableDeletion: true
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/crowdsec
     dashboards:
+      grafana-dashboards-crowdsec:
+        crowdsec-overview:
+          url: https://raw.githubusercontent.com/bl-robinson/home-flux/master/clusters/home/monitoring/dashboards/crowdsec-overview.json
+          datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+        crowdsec-insight:
+          url: https://raw.githubusercontent.com/bl-robinson/home-flux/master/clusters/home/monitoring/dashboards/crowdsec-insight.json
+          datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+        crowdsec-details-per-machine:
+          url: https://raw.githubusercontent.com/bl-robinson/home-flux/master/clusters/home/monitoring/dashboards/crowdsec-details-per-machine.json
+          datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+        crowdsec-lapi-metrics:
+          url: https://raw.githubusercontent.com/bl-robinson/home-flux/master/clusters/home/monitoring/dashboards/crowdsec-lapi-metrics.json
+          datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
       # data/backup Pis: Alloy node metrics (job=pi-nodes) + smartctl_exporter (job=smartctl)
       grafana-dashboards-pi:
         node-exporter-full:
